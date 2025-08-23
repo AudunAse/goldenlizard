@@ -1,0 +1,39 @@
+@font-face {
+  font-family: 'Eina01';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src:
+    local(''),
+    url('/assets/fonts/eina/Eina01-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Eina01';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400;
+  src:
+    local(''),
+    url('/assets/fonts/eina/Eina01-RegularItalic.woff22') format('woff2');
+}
+
+@font-face {
+  font-family: 'Eina01';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src:
+    local(''),
+    url('/assets/fonts/eina/Eina01-Bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Redhat';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 900;
+  src:
+    local(''),
+    url('/assets/fonts/redhat/red-hat-display-v7-latin-900.woff2') format('woff2');
+}

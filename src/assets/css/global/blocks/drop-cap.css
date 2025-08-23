@@ -1,0 +1,12 @@
+.drop-cap::first-letter {
+  /* Make the letter much larger */
+  font-size: 3.2em;
+  /* Make it bold */
+  font-weight: 700;
+  /* Pull the rest of the text up vertically */
+  line-height: 0.8;
+  /* Float it so text wraps around it */
+  float: left;
+  /* Add some space to the right of the letter */
+  margin-right: 0.1em;
+}
