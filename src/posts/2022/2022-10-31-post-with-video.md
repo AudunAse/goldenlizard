@@ -1,4 +1,5 @@
 ---
+draft: true
 title: 'Post with a video'
 description: "This starter uses Paul Irish's lite-youtube-embed web component. You can also use a modified version to display PeerTube videos."
 date: 2022-10-31

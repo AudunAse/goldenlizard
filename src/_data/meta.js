@@ -43,6 +43,7 @@ export const blog = {
       url: '/feed.json',
       type: 'application/json'
     }
+    
   ],
   // Tags
   tagSingle: 'Tag',

@@ -4,7 +4,7 @@ export default {
       text: 'About',
       url: '/about/'
     },
-    {
+    /*{
       text: 'Docs',
       url: '/get-started/'
     },
@@ -12,13 +12,14 @@ export default {
       text: 'Built with',
       url: '/built-with/'
     },
+    */
     {
       text: 'Blog',
       url: '/blog/'
     }
   ],
   bottom: [
-    {
+    /*{
       text: 'Style guide',
       url: '/styleguide/'
     },
@@ -30,5 +31,6 @@ export default {
       text: 'Privacy',
       url: '/privacy/'
     }
+    */
   ]
 };
