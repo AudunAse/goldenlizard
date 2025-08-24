@@ -1,4 +1,5 @@
 ---
+draft: false
 title: 'Cat Photography'
 description: "What better way to start something by sharing pictures of cute kittens. This is Mango and Moose!"
 date: 2025-08-22
