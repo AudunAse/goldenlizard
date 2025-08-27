@@ -12,7 +12,7 @@ Always been a fan of heightfields and terrain generation. There's something so s
 
 I've learned a few things while tinkering with heightfields over the years, so this is where I'll share some of my methods for heightfields.
 
-#### Heightfield Distort
+## Heightfield Distort
 
 ![Heightfield Distort with iteration step](/assets/images/blog/distort_03.jpg)
 
@@ -31,7 +31,9 @@ No distortion applied
 Distortion with 16 substeps
 ![Heightfield Distort with iteration step](/assets/images/blog/distort_02.jpg)
 
-### Erosion
+---
+
+## Erosion
 
 Erosion is the step which I would argue adds the most realism to your terrain. Personally not a huge fan of the erosion node in Houdini as I feel it's quite hard to tune to look good. 
 
@@ -39,7 +41,7 @@ Erosion is the step which I would argue adds the most realism to your terrain. P
 
 Though it's very hard to compare houdini terrains with Gaea which is specifically designed to do terrains. Gaea is a lot more capable, and creates very realistic results relatively easily.
 
-Best case is using them together, since houdini labs has some tools that allow them to operate together.
+Best case is using them together, since houdini labs has some tools that allow them to operate together. *Money though.*
 
 I also feel Houdini Erosion is quite slow if when working at high resolutions.
 
@@ -67,5 +69,35 @@ I've come to really like this approach as I can get *erosion like* detail withou
 
 ![Heightfield Distort with iteration step](/assets/images/blog/flowfield_06.jpg)
 
+---
+
+## Slump Node
+
+![Heightfield Distort with iteration step](/assets/images/blog/slump_03.jpg)
+
+Another personal favorite the `Slump` node. It does what the name describes so fittingly. It "slumps" material downwards with gravity.
+
+I like to create a mask from slope
+![Heightfield Distort with iteration step](/assets/images/blog/slump_01.jpg)
+
+With `Slump`
+![Heightfield Distort with iteration step](/assets/images/blog/slump_02.jpg)
+
+I use this for most terrains I make. It does such a great job at not only to smoothing out surfaces around sharp slopes, but also creates fantastic masks that help target the heavier dirt that flowed down for years.
+
+---
+
+## The Blur Trick
+
+![Heightfield Distort with iteration step](/assets/images/blog/blur_01.jpg)
+
+Another trick I use, especially when creating a layer of "light" material around a surface is the old Blur and layer.
+By first applying a strong blur, and using a `Heightfield Layer` set to `Max`, you can create sandy or snowy looking terrain.
+
+![Heightfield Distort with iteration step](/assets/images/blog/blur_02.jpg)
+
+![Heightfield Distort with iteration step](/assets/images/blog/blur_03.jpg)
+
+---
 
 #### Adding more as i go...

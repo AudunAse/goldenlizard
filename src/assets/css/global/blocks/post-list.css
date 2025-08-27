@@ -1,0 +1,30 @@
+.post-list {
+  list-style: none;
+  padding: 5;
+  min-width: 50rem; /* Add this to set a max width */
+  max-width: 100rem; /* Add this to set a max width */
+  margin: auto;     /* Add this to center the list */
+}
+
+.post-list-item a {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: var(--space-xs) 0;
+  color: var(--color-text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-bg-accent);
+  border: 1px solid var(--color-bg-accent);
+  padding: var(--space-s);
+  border-radius: 0.25rem;
+  margin-bottom: var(--space-xs);
+}
+
+.post-list-item a:hover {
+  color: var(--color-primary);
+}
+
+.post-list-item time {
+  font-size: var(--size-step-min-1);
+  color: var(--color-text-accent);
+}
