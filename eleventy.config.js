@@ -71,6 +71,7 @@ export default async function (eleventyConfig) {
 
   // ---------------------  bundle
   eleventyConfig.addBundle('css', {hoist: true});
+  eleventyConfig.addBundle('js');
 
   // 	--------------------- Library and Data
   eleventyConfig.setLibrary('md', plugins.markdownLib);
