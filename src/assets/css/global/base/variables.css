@@ -25,6 +25,8 @@
     var(--color-tertiary) 0 100%
   );
 
+  --color-background: #f8f9fa;
+
   --color-light: var(--color-gray-100);
   --color-dark: var(--color-gray-900);
   --color-mid: var(--color-gray-400);
@@ -61,6 +63,7 @@
   }
 }
 :root[data-theme='dark'] {
+  --color-background: #2e2e2e;
   --color-text: var(--color-gray-100);
   --color-bg: var(--color-gray-800);
 

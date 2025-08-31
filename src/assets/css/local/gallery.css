@@ -34,6 +34,8 @@ is-land:not(:defined) .gallery dialog + button {
   background-image: var(--gradient-stripes);
   opacity: 0.9;
   filter: brightness(50%);
+  display: none;
+
 }
 
 .gallery dialog img {

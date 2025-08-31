@@ -3,21 +3,81 @@ draft: false
 title: 'Cat Photography'
 description: "What better way to start something by sharing pictures of cute kittens. This is Mango and Moose!"
 date: 2025-08-22
-layout: post
+layout: photography
 tags: ['photography']
-image: '/assets/images/gallery/kittens_01.jpg'
+image: '/assets/images/gallery/kittens_04.jpg'
 alt: 'Adorable cat images!'
 credit: Mango and Moose
 gallery:
-  - image: /assets/images/gallery/kittens_01.jpg
-    alt: A close-up of Mango, an orange kitten, looking at the camera.
-    caption: Mango the kitten.
   - image: /assets/images/gallery/kittens_02.jpg
+    alt: Moose in the sunlight, looking expensive
+    caption: Moose the royal 
+  - image: /assets/images/gallery/kittens_03.jpg
+    alt: Moose in the sunlight, looking expensive
+    caption: Moose the royal cat
+  - image: /assets/images/gallery/kittens_05.jpg
+    alt: Moose in the sunlight, looking expensive
+    caption: Moose the royal cat
+  - image: /assets/images/gallery/kittens_06.jpg
+    alt: Moose in the sunlight, looking expensive
+    caption: Moose the royal cat
+  - image: /assets/images/gallery/kittens_07.jpg
+    alt: Moose in the sunlight, looking expensive
+    caption: Moose the royal cat
+  - image: /assets/images/gallery/kittens_08.jpg
+    alt: Moose in the sunlight, looking expensive
+    caption: Moose the royal cat
+  - image: /assets/images/gallery/kittens_09.jpg
+    alt: Moose in the sunlight, looking expensive
+    caption: Moose the royal cat
+  - image: /assets/images/gallery/kittens_10.jpg
+    alt: Moose in the sunlight, looking expensive
+    caption: Moose the royal cat
+  - image: /assets/images/gallery/kittens_11.jpg
+    alt: Moose in the sunlight, looking expensive
+    caption: Moose the royal cat
+  - image: /assets/images/gallery/kittens_12.jpg
+    alt: Moose in the sunlight, looking expensive
+    caption: Moose the royal cat
+  - image: /assets/images/gallery/kittens_13.jpg
+    alt: Moose in the sunlight, looking expensive
+    caption: Moose the royal cat
+  - image: /assets/images/gallery/kittens_14.jpg
+    alt: Moose in the sunlight, looking expensive
+    caption: Moose the royal cat
+  - image: /assets/images/gallery/kittens_15.jpg
+    alt: Moose in the sunlight, looking expensive
+    caption: Moose the royal cat
+  - image: /assets/images/gallery/kittens_16.jpg
+    alt: Moose in the sunlight, looking expensive
+    caption: Moose the royal cat
+  - image: /assets/images/gallery/kittens_17.jpg
+    alt: Moose in the sunlight, looking expensive
+    caption: Moose the royal cat
+  - image: /assets/images/gallery/kittens_18.jpg
+    alt: Moose in the sunlight, looking expensive
+    caption: Moose the royal cat
+  - image: /assets/images/gallery/kittens_19.jpg
+    alt: Moose in the sunlight, looking expensive
+    caption: Moose the royal cat
+  - image: /assets/images/gallery/kittens_20.jpg
+    alt: Moose in the sunlight, looking expensive
+    caption: Moose the royal cat
+  - image: /assets/images/gallery/kittens_21.jpg
+    alt: Moose in the sunlight, looking expensive
+    caption: Moose the royal cat
+  - image: /assets/images/gallery/kittens_22.jpg
+    alt: Moose in the sunlight, looking expensive
+    caption: Moose the royal cat
+  - image: /assets/images/gallery/kittens_23.jpg
+    alt: Moose in the sunlight, looking expensive
+    caption: Moose the royal cat
+  - image: /assets/images/gallery/kittens_24.jpg
     alt: Moose in the sunlight, looking expensive
     caption: Moose the royal cat
 ---
 
-This is Mango and Moose, the two latest additions to the family. They are still quite young and demand a lot of our attention, but they are aleady an integral part of our family.
+Mango and Moose are the two latest additions to the family. They are still quite young and demand a lot of our attention, but they are aleady an integral part of our family.
 
 ## Personality
 

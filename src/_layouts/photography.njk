@@ -1,0 +1,44 @@
+---
+layout: base
+schema: BlogPosting
+---
+
+<div class="region" style="--region-space-top: var(--space-xl-5xl)">
+  <div class="region wrapper flow prose">
+
+    <section class="flow region region-space-m">
+      <a href="/blog/" class="button" data-ghost-button>Back to blog</a>
+    </section>
+    </div>
+
+      <div class="wrapper">
+  <h1 class="clip-text clip-text--cover clip-text_one" style="--hero-image-url: url('{{ image }}')">
+    {{ title }}
+  </h1>
+</div>
+
+<div class="region" style="--region-space-top: var(--space-xl-5xl)">
+  <div class="region wrapper flow prose">
+
+    {# This part is similar to your original post layout #}
+    <p class="meta | cluster gutter-xs-s">
+      {%- if draft -%}
+        <span class="button" data-small-button data-button-variant="tertiary">draft</span>
+      {%- endif %}
+      {% set definedDate = date %} {% include "partials/date.njk" %}
+      {% if tags.length > 1 %}
+        {% for tag in tags %}{% if tag != "posts" %}
+          <a class="button" href="/tags/{{ tag | slugify }}/" data-small-button> {{ tag }} </a>
+        {% endif %}{% endfor %}
+      {% endif %}
+    </p>
+
+    {{ content | safe | replace('<p>', '<p class="drop-cap">', 1) }}
+    {% include 'partials/edit-on.njk' %}
+  </div>
+</div>
+
+{%- css "local" -%}
+  {%- include 'css/post.css' -%}
+  {%- include 'css/footnotes.css' -%}
+{%- endcss -%}

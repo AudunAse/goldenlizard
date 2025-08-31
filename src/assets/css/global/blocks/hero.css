@@ -1,0 +1,143 @@
+.hero-section {
+  display: grid; 
+  grid-template-rows: auto 1fr; 
+  min-height: 70vh;
+  position: relative;
+}
+
+/* The ::before pseudo-element holds the background for the entire section */
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1; 
+  
+  background-image: var(--hero-image-url, url('/assets/images/gallery/kittens_04.jpg'));
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* Homepage is fixed for the parallax effect */
+}
+
+.hero-top {
+  background-color: var(--color-background);
+  padding: var(--space-xl-4xl) var(--gap) var(--space-l);
+  display: flex;
+  align-items: flex-end;
+}
+
+.hero-bottom {
+  min-height: 20vh; 
+}
+
+.clipped-heading {
+  margin-bottom: -1.3rem; 
+  color: transparent;
+  
+  /* The text gets its own background, which MUST match the section's background */
+  background-image: var(--hero-image-url, url('/assets/images/gallery/kittens_04.jpg'));
+  background-attachment: fixed; /* This MUST match the attachment above */
+  background-size: cover;
+  background-position: center;
+  
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.clipped-heading--full-width {
+  font-size: clamp(4rem, 10vw + 1rem, 12rem);
+  margin-bottom: -2.5rem;
+}
+
+
+/* --- MODIFIERS FOR POST-SPECIFIC HERO --- */
+
+.hero-section--post {
+  min-height: 40vh;
+}
+
+/* On posts, we change the section's background to scroll */
+.hero-section--post::before {
+  background-attachment: scroll; 
+}
+
+.hero-section--post .hero-top {
+  background: var(--color-background); 
+  padding: var(--space-l-xl) var(--gap) var(--space-m);
+}
+
+.hero-section--post .hero-bottom {
+  min-height: 15vh;
+}
+
+/* We then change the text's background to scroll in the exact same way */
+.hero-section--post .clipped-heading {
+  background-attachment: scroll; /* This syncs it with the section background */
+}
+
+
+
+/* Clip text element */
+.clip-text {
+    font-size: clamp(4rem, 10vw + .5rem, 6rem);
+    text-transform: lowercase;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 3em;
+    text-align: left;
+    /* Color fallback */
+    color: #fff;
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+}
+
+.clip-text:before,
+.clip-text:after {
+    position: absolute;
+    content: '';
+}
+
+/* Background */
+.clip-text:before {
+    z-index: -2;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: inherit;
+
+}
+
+/* Text Background (black zone) */
+.clip-text:after {
+    position: absolute;
+    z-index: -1;
+    top: .0em;
+    right: .0em;
+    bottom: 3.2em;
+    left: .0em;
+    background-color: var(--color-background);
+}
+
+/* Change the background position to display letter when the black zone isn't here */
+.clip-text--no-textzone:before {
+    
+}
+
+.clip-text--no-textzone:after {
+    content: none;
+}
+
+/* Use Background-size cover for photo background and no-repeat background */
+.clip-text--cover,
+.clip-text--cover:before {
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+            background-size: cover;
+  background-position: center;
+}
+
+.clip-text_one {
+    background-image: var(--hero-image-url);
+}

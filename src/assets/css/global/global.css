@@ -17,4 +17,4 @@
 
 @import 'tailwindcss/utilities' layer(tailwindUtilities);
 
-@import-glob 'blocks/view-transitions.css' layer(blocks);
+@import-glob 'blocks/*.css' layer(blocks);

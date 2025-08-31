@@ -1,18 +1,18 @@
 ---
 layout: base
 permalink: /index.html
-title: 'The Lizards Den'
+title: 'the lizards den'
 description: 'Lizards Den, a creative area where I ramble.'
 blog:
   title: 'Lizard Logs'
   intro: "Browse the latest from the Lizards Den"
 ---
-
 <div class="wrapper">
-  <header class="full | section" style="--spot-color: var(--color-primary)">
-    <div class="section__inner flow region">
-      <h1 class="text-center" style="color: var(--color-light);">{{ title }}</h1>
+  <header class="full | hero-section">
+    <div class="hero-top">
+      <h1 class="text-center clipped-heading clipped-heading--full-width">{{ title }}</h1>
     </div>
+    <div class="hero-bottom"></div>
   </header>
 
   <article class="full | region">
@@ -42,3 +42,7 @@ blog:
     </div>
   </section>
 </div>
+
+{%- css "local" -%}
+  {%- include 'css/box-layout.css' -%}
+{%- endcss -%}

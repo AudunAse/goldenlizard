@@ -13,3 +13,13 @@
   background-repeat: repeat;
   background-clip: text;
 }
+
+.text-clip-image {
+  color: transparent;
+  background-image: url('/assets/images/gallery/kittens_01.jpg');
+  background-size: 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+}

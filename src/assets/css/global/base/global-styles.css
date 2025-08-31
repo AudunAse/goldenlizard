@@ -148,26 +148,3 @@ a:not([class]):hover {
     display: none;
   }
 }
-
-/* View Transitions */
-@keyframes slide-in {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-}
-
-@keyframes slide-out {
-  to {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
-}
-
-::view-transition-old(root) {
-  animation: 300ms ease-out both slide-out;
-}
-
-::view-transition-new(root) {
-  animation: 300ms ease-in both slide-in;
-}
