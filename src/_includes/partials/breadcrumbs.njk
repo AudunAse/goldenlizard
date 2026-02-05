@@ -1,0 +1,11 @@
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol class="cluster gutter-xs" style="list-style: none; padding: 0; margin: 0;">
+    <li><a href="/">Home</a></li>
+    <li aria-hidden="true">/</li>
+    <li><a href="/blog/">Blog</a></li>
+    {% if title %}
+    <li aria-hidden="true">/</li>
+    <li aria-current="page">{{ title }}</li>
+    {% endif %}
+  </ol>
+</nav>

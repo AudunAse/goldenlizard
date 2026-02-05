@@ -6,6 +6,13 @@
     transform: translateX(-50%);
 }
 
+.hero-section--contained {
+    width: 100%;
+    left: 0;
+    transform: none;
+    max-width: 100%;
+}
+
 /* Clip text element */
 .clip-text {
     font-size: clamp(4rem, 10vw + .5rem, 6rem);

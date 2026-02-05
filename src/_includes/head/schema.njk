@@ -1,5 +1,8 @@
 {% include "schemas/WebSite.njk" %}
 
 {% if schema %}
-  {%- include "schemas/" + schema + ".njk" -%}
+  {%- set schemaList = schema | split(',') -%}
+  {%- for schemaItem in schemaList -%}
+    {%- include "schemas/" + schemaItem + ".njk" -%}
+  {%- endfor -%}
 {% endif %}

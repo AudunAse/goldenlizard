@@ -1,3 +1,132 @@
+/* Current font - Merriweather (primary) and ShareTechMono (code) */
+@font-face {
+  font-family: 'Merriweather';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 900;
+  font-stretch: 75% 100%;
+  src:
+    url('/assets/fonts/Merriweather/Merriweather-VariableFont_opsz,wdth,wght.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Merriweather';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 300 900;
+  font-stretch: 75% 100%;
+  src:
+    url('/assets/fonts/Merriweather/Merriweather-Italic-VariableFont_opsz,wdth,wght.woff2') format('woff2');
+}
+
+/* Monaspace Argon - Code font */
+@font-face {
+  font-family: 'MonaspaceArgon';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200;
+  src:
+    url('/assets/fonts/MonaspaceArgon/MonaspaceArgon-ExtraLight.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'MonaspaceArgon';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300;
+  src:
+    url('/assets/fonts/MonaspaceArgon/MonaspaceArgon-Light.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'MonaspaceArgon';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src:
+    url('/assets/fonts/MonaspaceArgon/MonaspaceArgon-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'MonaspaceArgon';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400;
+  src:
+    url('/assets/fonts/MonaspaceArgon/MonaspaceArgon-Italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'MonaspaceArgon';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src:
+    url('/assets/fonts/MonaspaceArgon/MonaspaceArgon-Medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'MonaspaceArgon';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src:
+    url('/assets/fonts/MonaspaceArgon/MonaspaceArgon-SemiBold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'MonaspaceArgon';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src:
+    url('/assets/fonts/MonaspaceArgon/MonaspaceArgon-Bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'MonaspaceArgon';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 700;
+  src:
+    url('/assets/fonts/MonaspaceArgon/MonaspaceArgon-BoldItalic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'MonaspaceArgon';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 800;
+  src:
+    url('/assets/fonts/MonaspaceArgon/MonaspaceArgon-ExtraBold.woff2') format('woff2');
+}
+
+/* Previous code font - ShareTechMono (kept for easy reversion) */
+/*
+@font-face {
+  font-family: 'ShareTechMono';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src:
+    url('/assets/fonts/Share_Tech_Mono/ShareTechMono-Regular.woff2') format('woff2');
+}
+*/
+
+/* Previous font - Geist (kept for easy reversion) */
+/*
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src:
+    url('/assets/fonts/Geist/Geist-VariableFont_wght.woff2') format('woff2');
+}
+*/
+
+/* Old fonts - kept for easy reversion */
+/*
 @font-face {
   font-family: 'Eina01';
   font-style: normal;
@@ -37,3 +166,4 @@
     local(''),
     url('/assets/fonts/redhat/red-hat-display-v7-latin-900.woff2') format('woff2');
 }
+*/

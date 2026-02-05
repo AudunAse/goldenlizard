@@ -71,7 +71,24 @@
 <meta property="og:description" content="{{ metaDescription }}" />
 <meta property="og:site_name" content="{{ meta.siteName }}" />
 <meta property="og:locale" content="{{ meta.locale }}" />
+{% if layout == 'post' %}
 <meta property="article:author" content="{{ meta.author.name }}" />
+<meta property="article:published_time" content="{{ date | toIsoString }}" />
+{% if lastUpdated %}
+<meta property="article:modified_time" content="{{ lastUpdated | toIsoString }}" />
+{% else %}
+<meta property="article:modified_time" content="{{ date | toIsoString }}" />
+{% endif %}
+{% if tags and tags.length > 0 %}
+  {%- for tag in tags -%}
+    {%- if tag != 'posts' -%}
+<meta property="article:tag" content="{{ tag }}" />
+    {%- endif -%}
+  {%- endfor -%}
+{% endif %}
+{% else %}
+<meta property="article:author" content="{{ meta.author.name }}" />
+{% endif %}
 
 <!-- Twitter specific head data was removed in v2 -->
 

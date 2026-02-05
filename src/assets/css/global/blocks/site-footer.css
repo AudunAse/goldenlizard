@@ -7,11 +7,7 @@
   padding: var(--space-xs);
 }
 .site-footer .creator a:hover {
-  color: transparent;
-  background-image: var(--gradient-rainbow);
-  background-size: 100%;
-  background-repeat: repeat;
-  background-clip: text;
+  color: var(--color-primary);
 }
 
 .site-footer .creator a:hover svg {

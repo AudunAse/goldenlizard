@@ -1,21 +1,18 @@
 <is-land on:idle>
-  <div class="gallery | grid mt-l-xl gutter-xs" role="list">
+  <div class="gallery mt-l-xl" role="list">
     {%- for item in gallery -%}
-      <dialog class="flow modal{{ loop.index }}">
-        <div class="cluster justify-center flow-space-m gutter-s">
-          <button data-nav="prev" class="button text-step-1" data-button-variant="primary">
-            <span class="visually-hidden">{{ meta.dialog.previous }}</span>{% svg "misc/arrow-left" %}
-          </button>
-          <button data-close class="button" autofocus data-button-variant="primary">
-            {{ meta.dialog.close }}
-          </button>
-          <button data-nav="next" class="button text-step-1" data-button-variant="primary">
-            <span class="visually-hidden">{{ meta.dialog.next }}</span>{% svg "misc/arrow-right" %}
-          </button>
-        </div>
-        {%- image item.image, item.alt, item.caption -%}
+      <dialog class="gallery-modal modal{{ loop.index }}">
+        <button class="gallery-close" aria-label="Close"></button>
+        <figure class="gallery-figure">
+          {%- image item.image, item.alt -%}
+          {% if item.caption %}
+            <figcaption>{{ item.caption }}</figcaption>
+          {% endif %}
+        </figure>
       </dialog>
-      <button data-index="{{ loop.index }}">{%- image item.image, item.alt -%}</button>
+      <button class="gallery-thumb" data-index="{{ loop.index }}" aria-label="View image {{ loop.index }}">
+        {%- image item.image, item.alt -%}
+      </button>
     {%- endfor -%}
   </div>
 
@@ -24,6 +21,6 @@
   {% endcss %}
 
   {% js "defer" %}
-    {% include "scripts/dialog.js" %}
+    {% include "scripts/gallery.js" %}
   {% endjs %}
 </is-land>

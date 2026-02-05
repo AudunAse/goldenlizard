@@ -28,6 +28,12 @@ When I forget:
 
 `P` - Separate, when in Edit Mode
 
+`Alt + G` - Clear transform
+
+`Alt + R` - Clear rotation
+
+`Alt + S` - Clear scale
+
 ---
 
 ## Cavity Viewport

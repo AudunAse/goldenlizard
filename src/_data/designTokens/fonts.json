@@ -4,18 +4,19 @@
   "items": [
     {
       "name": "Display",
-      "description": "Display font stack for headings and large text. Redhat Display is made for headlines and big statements, are low contrast and spaced tightly, with a large x-height and open counters.",
-      "value": ["Eina01", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"]
+      "description": "Display font stack for headings and large text. Using Merriweather variable font.",
+      "value": ["Merriweather", "Georgia", "Times New Roman", "serif"]
     },
     {
       "name": "Base",
-      "description": "Base font stack for body text. Atkinson Hyperlegible, named after the founder of the Braille Institute, has been developed specifically to increase legibility for readers with low vision, and to improve comprehension.",
-      "value": ["Eina01", "system-ui", "sans-serif"]
+      "description": "Base font stack for body text. Using Merriweather variable font.",
+      "value": ["Merriweather", "Georgia", "Times New Roman", "serif"]
     },
     {
       "name": "Mono",
-      "description": "Monospace font for code and preformatted text.",
+      "description": "Monospace font for code and preformatted text. Using MonaspaceArgon.",
       "value": [
+        "MonaspaceArgon",
         "ui-monospace",
         "Cascadia Code",
         "Source Code Pro",
@@ -25,5 +26,19 @@
         "monospace"
       ]
     }
-  ]
+  ],
+  "_old_fonts": {
+    "Geist": {
+      "Display": ["Geist", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
+      "Base": ["Geist", "system-ui", "sans-serif"]
+    },
+    "Eina01": {
+      "Display": ["Eina01", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
+      "Base": ["Eina01", "system-ui", "sans-serif"]
+    },
+    "Mono": {
+      "ShareTechMono": ["ShareTechMono", "ui-monospace", "Cascadia Code", "Source Code Pro", "Menlo", "Consolas", "DejaVu Sans Mono", "monospace"],
+      "Original": ["ui-monospace", "Cascadia Code", "Source Code Pro", "Menlo", "Consolas", "DejaVu Sans Mono", "monospace"]
+    }
+  }
 }

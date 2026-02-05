@@ -8,6 +8,7 @@ import {eleventyImageTransformPlugin} from '@11ty/eleventy-img';
 // custom
 import {markdownLib} from './plugins/markdown.js';
 import {drafts} from './plugins/drafts.js';
+import {ignoreGifImagesTransform} from './plugins/ignore-gif-transform.js';
 
 // Custom transforms
 import {htmlConfig} from './plugins/html-config.js';
@@ -17,6 +18,7 @@ export default {
   rss,
   syntaxHighlight,
   webc,
+  ignoreGifImagesTransform,
   eleventyImageTransformPlugin,
   markdownLib,
   drafts,

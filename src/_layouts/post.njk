@@ -1,13 +1,14 @@
 ---
 layout: base
-schema: BlogPosting
+schema: BlogPosting,BreadcrumbList
 ---
 
 <div class="region" style="--region-space-top: var(--space-xl-5xl)">
 <div class="region wrapper flow prose">
 
  <section class="flow region region-space-m">
- <a href="/blog/" class="button" data-ghost-button>Back to blog</a>
+   {% include 'partials/breadcrumbs.njk' %}
+   <a href="/blog/" class="button" data-ghost-button>Back to blog</a>
  </section>
 
     <h1 class="text-primary">{{ title }}</h1>
@@ -37,6 +38,8 @@ schema: BlogPosting
 
     {{ content | safe | replace('<p>', '<p class="drop-cap">', 1) }}
     {% include 'partials/edit-on.njk' %}
+    
+    {% include 'partials/related-posts.njk' %}
   </div>
 
   <!--  h-card infos: https://indieweb.org/authorship -->
@@ -55,4 +58,6 @@ schema: BlogPosting
 {%- css "local" -%}
   {%- include 'css/post.css' -%}
   {%- include 'css/footnotes.css' -%}
+  {%- include 'css/breadcrumbs.css' -%}
+  {%- include 'css/related-posts.css' -%}
 {%- endcss -%}

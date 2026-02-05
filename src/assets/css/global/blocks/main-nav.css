@@ -194,7 +194,7 @@ li:has(ul a[aria-current='page']) > [data-submenu-toggle] {
   }
 
   .mainnav :is(a, [data-submenu-toggle]) {
-    --nav-item-font-weight: var(--font-regular);
+    --nav-item-font-weight: var(--font-bold);
   }
 
   .mainnav ul {

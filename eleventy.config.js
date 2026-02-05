@@ -56,6 +56,7 @@ export default async function (eleventyConfig) {
     useTransform: true
   });
 
+  eleventyConfig.addPlugin(plugins.ignoreGifImagesTransform);
   eleventyConfig.addPlugin(plugins.eleventyImageTransformPlugin, {
     formats: ['webp', 'jpeg'],
     widths: ['auto'],
@@ -86,6 +87,7 @@ export default async function (eleventyConfig) {
   eleventyConfig.addFilter('shuffle', filters.shuffleArray);
   eleventyConfig.addFilter('alphabetic', filters.sortAlphabetically);
   eleventyConfig.addFilter('slugify', filters.slugifyString);
+  eleventyConfig.addFilter('split', filters.split);
 
   // --------------------- Shortcodes
   eleventyConfig.addShortcode('svg', shortcodes.svgShortcode);

@@ -48,12 +48,44 @@
     {% endset %}
     {% include "partials/header.njk" %}
 
-    <main id="main" class="flow">{{ content | safe }}</main>
+    <main id="main" class="flow page-fade-in">{{ content | safe }}</main>
 
     {% include "partials/footer.njk" %}
+    
+    <!-- Back to top button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top" title="Up top">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m18 15-6-6-6 6"/>
+      </svg>
+    </button>
+    
     {%- if meta.easteregg -%}
       <script type="module" src="/assets/scripts/components/custom-easteregg.js"></script>
       <custom-easteregg></custom-easteregg>
     {%- endif -%}
+    
+    <script>
+      // Back to top functionality
+      (function() {
+        const backToTopBtn = document.getElementById('back-to-top');
+        
+        function toggleBackToTop() {
+          if (window.scrollY > 300) {
+            backToTopBtn.classList.add('visible');
+          } else {
+            backToTopBtn.classList.remove('visible');
+          }
+        }
+        
+        window.addEventListener('scroll', toggleBackToTop, { passive: true });
+        
+        backToTopBtn.addEventListener('click', function() {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        });
+      })();
+    </script>
   </body>
 </html>

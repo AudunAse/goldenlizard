@@ -3,12 +3,13 @@
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "mainEntityOfPage": {
-      "@type": "WebPage"
+      "@type": "WebPage",
+      "@id": "{{ meta.url }}{{ page.url }}"
     },
     "isPartOf": {
       "@id": "{{ meta.url }}#website"
     },
-    "@id": "{{ url }}",
+    "@id": "{{ meta.url }}{{ page.url }}",
     "headline": "{{ title or meta.siteName }}",
     "description": "{{ discover.description or description or meta.siteDescription }}",
     "image": "{{ meta.url }}{% if discover.image %}/assets/images/{{ discover.image }}{% else %}{{ meta.opengraph_default }}{% endif %}",
@@ -20,8 +21,18 @@
     },
     "author": {
       "@type": "Person",
-      "name": "{{ meta.author.name }}"
+      "name": "{{ meta.author.name }}",
+      "url": "{{ meta.author.website }}"
     },
-    "datePublished": "{{ date | toIsoString }}"
+    "datePublished": "{{ date | toIsoString }}",
+    {% if lastUpdated %}
+    "dateModified": "{{ lastUpdated | toIsoString }}",
+    {% else %}
+    "dateModified": "{{ date | toIsoString }}",
+    {% endif %}
+    {% if tags and tags.length > 0 %}
+    "keywords": "{{ tags | join(', ') }}",
+    {% endif %}
+    "url": "{{ meta.url }}{{ page.url }}"
   }
 </script>

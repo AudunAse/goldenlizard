@@ -4,62 +4,69 @@ title: Lizard Logs
 description: 'All the ramblings are found here.'
 pagination:
   data: collections.allPosts
-  size: 8
+  size: 10
 permalink: 'blog/{% if pagination.pageNumber >=1 %}page-{{ pagination.pageNumber + 1 }}/{% endif %}index.html'
 ---
 
 <div class="wrapper">
-  <header class="full | section" style="--spot-color: var(--color-secondary)">
-    <div class="section__inner flow region" style="--region-space-top: var(--space-xl-4xl)">
-      <h1 class="text-center " style="text-primary">{{ title }}</h1>
+  <header class="blog-header region" style="--region-space-top: var(--space-xl-2xl)">
+    <div class="blog-list-container flow">
+      <h1 class="blog-title">{{ title }}</h1>
+      <p class="blog-description">{{ description }}</p>
     </div>
-
   </header>
 
-  <div class="region flow prose" style="--region-space-top: var(--space-xl-4xl)">
-
-  </div>
-
-  <custom-masonry layout="50-50">
-		{% asyncEach item in pagination.items %}
-			{% include "partials/card-blog.njk" %}
-		{% endeach %}
-	</custom-masonry>
-
- <article class="full | region">
-    <div class="wrapper flow">
-      <h4 class="text-center" style="color: var(--color-light);">Log History:</h4>
+  <div class="region blog-list-region" style="--region-space-top: var(--space-m)">
+    <div class="blog-list-container">
+      
+      <!-- Tag Filter -->
+      <div class="blog-filter">
+        <span class="blog-filter-label">Filter:</span>
+        <button class="blog-filter-btn active" data-filter="all">All</button>
+        {% set allTags = [] %}
+        {%- for post in collections.allPosts -%}
+          {%- for tag in post.data.tags -%}
+            {%- if tag and tag != 'posts' and tag not in allTags -%}
+              {% set allTags = (allTags.push(tag), allTags) %}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endfor -%}
+        {%- for tag in allTags | sort -%}
+          <button class="blog-filter-btn" data-filter="{{ tag }}">{{ tag | capitalize }}</button>
+        {%- endfor -%}
+      </div>
+      
+      {% set currentYear = 0 %}
+      {% set currentFilteredYear = 0 %}
+      
+      {%- for post in pagination.items -%}
+        {% set year = post.date.getFullYear() %}
+        {% set postTags = post.data.tags | join(' ') %}
+        
+        {% if year != currentYear %}
+          {% set currentYear = year %}
+        {% endif %}
+        
+        <article class="blog-list-item" data-tags="{{ postTags }}" data-year="{{ year }}">
+          {% if year != currentFilteredYear %}
+            <h2 class="blog-year" data-year="{{ year }}">{{ year }}</h2>
+            {% set currentFilteredYear = year %}
+          {% endif %}
+          <a href="{{ post.url }}" class="blog-list-link">
+            <div class="blog-list-content">
+              <h3 class="blog-list-title">{{ post.data.title }}</h3>
+              {% if post.data.description %}
+                <p class="blog-list-excerpt">{{ post.data.description }}</p>
+              {% endif %}
+            </div>
+            <time class="blog-list-date" datetime="{{ post.date | formatDate('yyyy-MM-dd') }}">
+              {{ post.date | formatDate('MMM dd') }}
+            </time>
+          </a>
+        </article>
+      {%- endfor -%}
     </div>
-  </article>
-
-{% set currentYear = 0 %}
-
-<ol class="post-list" reversed>
-  {%- for post in pagination.items -%}
-    
-    {# For each post, get its year and store it in a 'year' variable #}
-    {% set year = post.date.getFullYear() %}
-
-    {# Check if this post's year is different from the currentYear we are tracking #}
-    {% if year != currentYear %}
-      
-      {# If it's a new year, print the year heading... #}
-      <h4 class="post-list-year">{{ year }}</h4><br>
-      
-      {# ...and then update the currentYear variable to this new year. #}
-      {% set currentYear = year %}
-
-    {% endif %}
-
-    {# Now, print the list item for the post as usual #}
-    <li class="post-list-item">
-      <a href="{{ post.url }}">
-        <span>{{ post.data.title }}</span>
-        {% set definedDate = post.date %} {% include "partials/date.njk" %}
-      </a>
-    </li>
-  {%- endfor -%}
-</ol>
+  </div>
 
   <!-- set collection to paginate -->
   {% set collectionToPaginate = collections.posts %}
@@ -71,3 +78,64 @@ permalink: 'blog/{% if pagination.pageNumber >=1 %}page-{{ pagination.pageNumber
     {% include 'partials/pagination.njk' %}
   {% endif %}
 </div>
+
+<script>
+  // Blog tag filtering
+  (function() {
+    const filterBtns = document.querySelectorAll('.blog-filter-btn');
+    const blogItems = document.querySelectorAll('.blog-list-item');
+    const yearHeaders = document.querySelectorAll('.blog-year');
+    
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const filter = this.getAttribute('data-filter');
+        
+        // Update active button
+        filterBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Filter items
+        blogItems.forEach(item => {
+          if (filter === 'all') {
+            item.style.display = '';
+            item.classList.remove('filtered-out');
+          } else {
+            const itemTags = item.getAttribute('data-tags') || '';
+            if (itemTags.includes(filter)) {
+              item.style.display = '';
+              item.classList.remove('filtered-out');
+            } else {
+              item.style.display = 'none';
+              item.classList.add('filtered-out');
+            }
+          }
+        });
+        
+        // Update year headers visibility
+        updateYearHeaders();
+      });
+    });
+    
+    function updateYearHeaders() {
+      const visibleYears = new Set();
+      blogItems.forEach(item => {
+        if (item.style.display !== 'none') {
+          visibleYears.add(item.getAttribute('data-year'));
+        }
+      });
+      
+      yearHeaders.forEach(header => {
+        const year = header.textContent.trim();
+        if (visibleYears.has(year)) {
+          header.style.display = '';
+        } else {
+          header.style.display = 'none';
+        }
+      });
+    }
+  })();
+</script>
+
+{%- css "local" -%}
+  {%- include 'css/blog-list.css' -%}
+{%- endcss -%}
