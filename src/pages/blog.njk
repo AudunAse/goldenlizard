@@ -1,7 +1,7 @@
 ---
 layout: base
 title: Lizard Logs
-description: 'All the ramblings are found here.'
+description: 'Posts and notes.'
 pagination:
   data: collections.allPosts
   size: 10
@@ -12,7 +12,6 @@ permalink: 'blog/{% if pagination.pageNumber >=1 %}page-{{ pagination.pageNumber
   <header class="blog-header region" style="--region-space-top: var(--space-xl-2xl)">
     <div class="blog-list-container flow">
       <h1 class="blog-title">{{ title }}</h1>
-      <p class="blog-description">{{ description }}</p>
     </div>
   </header>
 

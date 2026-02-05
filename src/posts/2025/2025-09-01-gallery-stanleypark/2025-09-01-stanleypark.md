@@ -7,11 +7,11 @@ layout: photography
 tags: ['photography']
 image: '/assets/images/gallery/stanley/stanleyPark_01.jpg'
 alt: 'Photography from Stanley Park, Vancouver'
-credit: Mango and Moose
+credit: Audun Ase
 gallery:
   - image: /assets/images/gallery/stanley/stanleyPark_01.jpg
-    alt: Moose in the sunlight, looking expensive
-    caption: Moose the royal 
+    alt: Two ducks sharing a cute moment
+    caption: Two ducks sharing a moment 
   
 ---
 
@@ -21,8 +21,12 @@ Stanley Park is a large park in Vancouver, Canada BC. The park is a beautiful pi
 
 I spent 6 years living and working in Vancouver and had numerous photo walks in the park where natural life seem to sprawl. The diversity of animals found there is truly remarkable. This is a selection of photos taken from this time.
 
+Page In progress.. It's a tad empty here!
+
 {% include "partials/gallery.njk" %}
 
 {%- css "local" -%}
   {%- include 'css/table.css' -%}
 {%- endcss -%}
+
+
