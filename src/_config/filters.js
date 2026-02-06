@@ -6,6 +6,7 @@ import {splitlines} from './filters/splitlines.js';
 import {striptags} from './filters/striptags.js';
 import {slugifyString} from './filters/slugify.js';
 import {splitString} from './filters/split.js';
+import {relatedPosts} from './filters/related-posts.js';
 
 export default {
   toISOString,
@@ -16,5 +17,6 @@ export default {
   shuffleArray,
   sortAlphabetically,
   slugifyString,
-  split: splitString
+  split: splitString,
+  relatedPosts
 };

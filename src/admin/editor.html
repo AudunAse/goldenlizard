@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Post Editor - The Lizard's Den</title>
+  
+  <!-- EasyMDE CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+  
+  <!-- Load CSS bundle files dynamically by checking main site -->
+  <script>
+    // Load CSS from the main site's head to get the correct bundle filenames
+    (function() {
+      fetch('/')
+        .then(response => response.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          const links = doc.querySelectorAll('head link[rel="stylesheet"]');
+          links.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('/bundle/')) {
+              const newLink = document.createElement('link');
+              newLink.rel = 'stylesheet';
+              newLink.href = href;
+              document.head.appendChild(newLink);
+            }
+          });
+        })
+        .catch(() => {
+          console.warn('Could not load CSS from main site');
+        });
+    })();
+  </script>
+  
+  <style>
+    /* Admin editor specific styles */
+    .admin-editor {
+      min-height: 100vh;
+      background: var(--color-bg);
+      color: var(--color-text);
+      padding: var(--space-l);
+    }
+    
+    .admin-editor .wrapper {
+      max-width: var(--wrapper-width);
+      margin: 0 auto;
+    }
+    
+    .admin-header {
+      margin-bottom: var(--space-xl);
+    }
+    
+    .admin-header h1 {
+      font-size: var(--size-step-4);
+      margin-bottom: var(--space-s);
+    }
+    
+    .admin-header p {
+      color: var(--color-text-accent);
+    }
+    
+    .editor-layout {
+      display: grid;
+      gap: var(--space-xl);
+      grid-template-columns: 1fr;
+    }
+    
+    @media (min-width: 60rem) {
+      .editor-layout {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    .frontmatter-form {
+      background: var(--color-bg-accent);
+      padding: var(--space-l);
+      border-radius: var(--border-radius-medium);
+      border: var(--stroke);
+    }
+    
+    .frontmatter-form h2 {
+      font-size: var(--size-step-2);
+      margin-bottom: var(--space-m);
+    }
+    
+    .form-group {
+      margin-bottom: var(--space-m);
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: var(--space-2xs);
+    }
+    
+    .form-group input[type="text"],
+    .form-group input[type="date"],
+    .form-group textarea {
+      width: 100%;
+      padding: var(--space-xs);
+      border-radius: var(--border-radius-small);
+      border: var(--stroke);
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-body);
+    }
+    
+    .form-group textarea {
+      min-height: 4rem;
+      resize: vertical;
+    }
+    
+    .form-group input[type="checkbox"] {
+      margin-right: var(--space-xs);
+    }
+    
+    .form-group small {
+      display: block;
+      margin-top: var(--space-2xs);
+      color: var(--color-text-accent);
+      font-size: var(--size-step-min-1);
+    }
+    
+    .editor-section {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .editor-section h2 {
+      font-size: var(--size-step-2);
+      margin-bottom: var(--space-m);
+    }
+    
+    .editor-toolbar {
+      display: flex;
+      gap: var(--space-xs);
+      margin-bottom: var(--space-s);
+      flex-wrap: wrap;
+    }
+    
+    .editor-toolbar .button {
+      font-size: var(--size-step-min-1);
+      padding: var(--space-2xs) var(--space-s);
+    }
+    
+    /* EasyMDE customization */
+    .EasyMDEContainer {
+      border: var(--stroke);
+      border-radius: var(--border-radius-medium);
+      background: var(--color-bg);
+    }
+    
+    .EasyMDEContainer .CodeMirror {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-mono);
+    }
+    
+    .EasyMDEContainer .editor-toolbar {
+      background: var(--color-bg-accent);
+      border-bottom: var(--stroke);
+    }
+    
+    .EasyMDEContainer .editor-toolbar button {
+      color: var(--color-text);
+    }
+    
+    .EasyMDEContainer .editor-toolbar button:hover,
+    .EasyMDEContainer .editor-toolbar button.active {
+      background: var(--color-bg-accent-2);
+    }
+    
+    /* EasyMDE Preview styling - match site theme */
+    .EasyMDEContainer .editor-preview,
+    .EasyMDEContainer .editor-preview-side {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-base);
+      font-size: var(--size-step-0);
+      line-height: var(--leading-standard);
+      padding: var(--space-l);
+    }
+    
+    .EasyMDEContainer .editor-preview h1,
+    .EasyMDEContainer .editor-preview h2,
+    .EasyMDEContainer .editor-preview h3,
+    .EasyMDEContainer .editor-preview-side h1,
+    .EasyMDEContainer .editor-preview-side h2,
+    .EasyMDEContainer .editor-preview-side h3 {
+      font-family: var(--font-display);
+      font-weight: var(--font-extra-bold);
+      line-height: var(--leading-fine);
+      letter-spacing: var(--tracking-s);
+      color: var(--color-text);
+      margin-top: var(--space-l);
+      margin-bottom: var(--space-m);
+    }
+    
+    .EasyMDEContainer .editor-preview h1,
+    .EasyMDEContainer .editor-preview-side h1 {
+      font-size: var(--size-step-6);
+    }
+    
+    .EasyMDEContainer .editor-preview h2,
+    .EasyMDEContainer .editor-preview-side h2 {
+      font-size: var(--size-step-4);
+    }
+    
+    .EasyMDEContainer .editor-preview h3,
+    .EasyMDEContainer .editor-preview-side h3 {
+      font-size: var(--size-step-2);
+    }
+    
+    .EasyMDEContainer .editor-preview p,
+    .EasyMDEContainer .editor-preview-side p {
+      color: var(--color-text);
+      margin-bottom: var(--space-m);
+    }
+    
+    .EasyMDEContainer .editor-preview a,
+    .EasyMDEContainer .editor-preview-side a {
+      color: var(--color-primary);
+      text-decoration: underline;
+      text-decoration-thickness: 0.15ex;
+      text-underline-offset: 0.2ch;
+    }
+    
+    .EasyMDEContainer .editor-preview a:hover,
+    .EasyMDEContainer .editor-preview-side a:hover {
+      text-decoration: none;
+    }
+    
+    .EasyMDEContainer .editor-preview code,
+    .EasyMDEContainer .editor-preview-side code {
+      background: var(--color-code-bg);
+      color: var(--color-text);
+      font-family: var(--font-mono);
+      font-size: var(--size-step-min-1);
+      padding: 0.1em 0.4em;
+      border-radius: var(--border-radius-small);
+    }
+    
+    .EasyMDEContainer .editor-preview pre,
+    .EasyMDEContainer .editor-preview-side pre {
+      background: var(--color-code-bg);
+      color: var(--color-text);
+      font-family: var(--font-mono);
+      font-size: var(--size-step-min-1);
+      padding: var(--space-s) var(--space-l);
+      border-radius: var(--border-radius-medium);
+      overflow-x: auto;
+      border: var(--stroke);
+    }
+    
+    .EasyMDEContainer .editor-preview pre code,
+    .EasyMDEContainer .editor-preview-side pre code {
+      background: transparent;
+      padding: 0;
+    }
+    
+    .EasyMDEContainer .editor-preview blockquote,
+    .EasyMDEContainer .editor-preview-side blockquote {
+      border-inline-start: 0.5rem solid var(--color-primary);
+      padding: var(--space-m-l);
+      margin: var(--space-m-l) 0;
+      color: var(--color-text);
+    }
+    
+    .EasyMDEContainer .editor-preview blockquote p,
+    .EasyMDEContainer .editor-preview-side blockquote p {
+      margin-bottom: var(--space-m-l);
+    }
+    
+    .EasyMDEContainer .editor-preview blockquote p:last-child,
+    .EasyMDEContainer .editor-preview-side blockquote p:last-child {
+      margin-bottom: 0;
+    }
+    
+    .EasyMDEContainer .editor-preview ul,
+    .EasyMDEContainer .editor-preview ol,
+    .EasyMDEContainer .editor-preview-side ul,
+    .EasyMDEContainer .editor-preview-side ol {
+      color: var(--color-text);
+      margin-bottom: var(--space-m);
+      padding-inline-start: 1.5rem;
+    }
+    
+    .EasyMDEContainer .editor-preview ul li::marker,
+    .EasyMDEContainer .editor-preview-side ul li::marker {
+      color: var(--color-primary);
+    }
+    
+    .EasyMDEContainer .editor-preview ol li::marker,
+    .EasyMDEContainer .editor-preview-side ol li::marker {
+      color: var(--color-primary);
+    }
+    
+    .EasyMDEContainer .editor-preview img,
+    .EasyMDEContainer .editor-preview-side img {
+      border: var(--stroke);
+      border-radius: var(--border-radius-medium);
+      max-width: 100%;
+    }
+    
+    .EasyMDEContainer .editor-preview table,
+    .EasyMDEContainer .editor-preview-side table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: var(--space-m);
+    }
+    
+    .EasyMDEContainer .editor-preview table th,
+    .EasyMDEContainer .editor-preview table td,
+    .EasyMDEContainer .editor-preview-side table th,
+    .EasyMDEContainer .editor-preview-side table td {
+      border: var(--stroke);
+      padding: var(--space-xs);
+      color: var(--color-text);
+    }
+    
+    .EasyMDEContainer .editor-preview table th,
+    .EasyMDEContainer .editor-preview-side table th {
+      background: var(--color-bg-accent);
+      font-weight: var(--font-bold);
+    }
+    
+    .EasyMDEContainer .editor-preview hr,
+    .EasyMDEContainer .editor-preview-side hr {
+      background-color: var(--color-bg-accent-2);
+      border: none;
+      height: 1px;
+      margin: var(--space-m-l) 0;
+    }
+    
+    .EasyMDEContainer .editor-preview strong,
+    .EasyMDEContainer .editor-preview-side strong {
+      font-weight: var(--font-bold);
+      color: var(--color-text);
+    }
+    
+    .EasyMDEContainer .editor-preview em,
+    .EasyMDEContainer .editor-preview-side em {
+      font-style: italic;
+      color: var(--color-text);
+    }
+    
+    /* Draft management styles */
+    #autosave-status {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2xs);
+    }
+    
+    #autosave-indicator {
+      color: var(--color-primary);
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    .draft-list {
+      max-height: 60vh;
+      overflow-y: auto;
+      margin-top: var(--space-m);
+    }
+    
+    .draft-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-s);
+      margin-bottom: var(--space-xs);
+      background: var(--color-bg-accent);
+      border-radius: var(--border-radius-small);
+      border: var(--stroke);
+      gap: var(--space-s);
+    }
+    
+    .draft-item:hover {
+      background: var(--color-bg-accent-2);
+    }
+    
+    .draft-item.current-draft {
+      border-color: var(--color-primary);
+      border-width: 2px;
+    }
+    
+    .draft-info {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .draft-name {
+      font-weight: var(--font-bold);
+      font-size: var(--size-step-0);
+      color: var(--color-text);
+      margin-bottom: var(--space-2xs);
+      word-break: break-word;
+    }
+    
+    .draft-meta {
+      font-size: var(--size-step-min-2);
+      color: var(--color-text-accent);
+      display: flex;
+      gap: var(--space-s);
+      flex-wrap: wrap;
+    }
+    
+    .draft-actions {
+      display: flex;
+      gap: var(--space-xs);
+      flex-shrink: 0;
+    }
+    
+    .draft-actions button {
+      padding: var(--space-2xs) var(--space-xs);
+      font-size: var(--size-step-min-2);
+    }
+    
+    .draft-name-input {
+      width: 100%;
+      padding: var(--space-xs);
+      border-radius: var(--border-radius-small);
+      border: var(--stroke);
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-base);
+      font-size: var(--size-step-0);
+      margin-bottom: var(--space-s);
+    }
+    
+    .empty-drafts {
+      text-align: center;
+      padding: var(--space-xl);
+      color: var(--color-text-accent);
+    }
+    
+    .output-section {
+      margin-top: var(--space-xl);
+      padding-top: var(--space-xl);
+      border-top: var(--stroke);
+    }
+    
+    .output-section h2 {
+      font-size: var(--size-step-2);
+      margin-bottom: var(--space-m);
+    }
+    
+    .output-actions {
+      display: flex;
+      gap: var(--space-s);
+      margin-bottom: var(--space-m);
+    }
+    
+    .output-content {
+      background: var(--color-code-bg);
+      border: var(--stroke);
+      border-radius: var(--border-radius-medium);
+      padding: var(--space-l);
+      font-family: var(--font-mono);
+      font-size: var(--size-step-min-1);
+      white-space: pre-wrap;
+      overflow-x: auto;
+      max-height: 30rem;
+      overflow-y: auto;
+    }
+    
+    /* Dialog styles - native dialog element */
+    dialog {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      padding: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    dialog:not([open]) {
+      display: none;
+    }
+    
+    dialog::backdrop {
+      background: rgba(0, 0, 0, 0.5);
+    }
+    
+    .dialog-content {
+      background: var(--color-bg);
+      border: var(--stroke);
+      border-radius: var(--border-radius-medium);
+      padding: var(--space-xl);
+      max-width: 30rem;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    .dialog-content h3 {
+      font-size: var(--size-step-1);
+      margin-bottom: var(--space-m);
+    }
+    
+    .dialog-actions {
+      display: flex;
+      gap: var(--space-s);
+      margin-top: var(--space-l);
+      justify-content: flex-end;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-editor">
+    <div class="wrapper">
+      <header class="admin-header">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-m); flex-wrap: wrap;">
+          <div>
+            <h1>Post Editor</h1>
+            <p>Create a new blog post. Fill in the frontmatter, write your content, then copy the generated markdown.</p>
+          </div>
+          <div style="display: flex; gap: var(--space-xs); flex-wrap: wrap; align-items: center;">
+            <span id="autosave-status" style="font-size: var(--size-step-min-2); color: var(--color-text-accent); display: none;">
+              <span id="autosave-indicator">●</span> Auto-saved
+            </span>
+            <button type="button" class="button" data-ghost-button data-small-button id="save-draft-btn">Save Draft</button>
+            <button type="button" class="button" data-ghost-button data-small-button id="load-draft-btn">Load Draft</button>
+            <button type="button" class="button" data-ghost-button data-small-button id="export-drafts-btn">Export</button>
+            <button type="button" class="button" data-ghost-button data-small-button id="import-drafts-btn">Import</button>
+          </div>
+        </div>
+      </header>
+
+      <div class="editor-layout">
+        <!-- Frontmatter Form -->
+        <section class="frontmatter-form">
+          <h2>Post Details</h2>
+          <form id="frontmatter-form">
+            <div class="form-group">
+              <label for="title">Title *</label>
+              <input type="text" id="title" name="title" required>
+            </div>
+
+            <div class="form-group">
+              <label for="description">Description *</label>
+              <textarea id="description" name="description" rows="2" required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="tags">Tags</label>
+              <input type="text" id="tags" name="tags" placeholder="houdini, scripts, tips">
+              <small>Comma-separated list</small>
+            </div>
+
+            <div class="form-group">
+              <label for="date">Date</label>
+              <input type="date" id="date" name="date">
+              <small>Defaults to today if empty</small>
+            </div>
+
+            <div class="form-group">
+              <label>
+                <input type="checkbox" id="draft" name="draft">
+                Draft (unpublished)
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label for="image">Featured Image (optional)</label>
+              <input type="text" id="image" name="image" placeholder="/assets/images/blog/...">
+            </div>
+
+            <div class="form-group">
+              <label for="alt">Image Alt Text (optional)</label>
+              <input type="text" id="alt" name="alt">
+            </div>
+
+            <div class="form-group">
+              <label for="credit">Image Credit (optional)</label>
+              <input type="text" id="credit" name="credit">
+            </div>
+          </form>
+        </section>
+
+        <!-- Markdown Editor -->
+        <section class="editor-section">
+          <h2>Content</h2>
+          <div class="editor-toolbar">
+            <button type="button" class="button" data-ghost-button data-small-button id="insert-image">Image</button>
+            <button type="button" class="button" data-ghost-button data-small-button id="insert-video">Video</button>
+            <button type="button" class="button" data-ghost-button data-small-button id="insert-link">Link</button>
+            <button type="button" class="button" data-ghost-button data-small-button id="insert-button">Button</button>
+          </div>
+          <textarea id="markdown-editor"></textarea>
+        </section>
+      </div>
+
+      <!-- Output Section -->
+      <section class="output-section">
+        <h2>Generated Markdown</h2>
+        <div class="output-actions">
+          <button type="button" class="button" data-button-variant="primary" id="generate-btn">Generate</button>
+          <button type="button" class="button" data-ghost-button id="copy-btn" disabled>Copy</button>
+          <button type="button" class="button" data-ghost-button id="download-btn" disabled>Download</button>
+        </div>
+        <div class="output-content" id="output-content">Fill in the form and click Generate to see the markdown output.</div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Dialogs -->
+  <!-- Image Dialog -->
+  <dialog class="dialog" id="image-dialog">
+    <div class="dialog-content">
+      <h3>Insert Image</h3>
+      <form id="image-form">
+        <div class="form-group">
+          <label for="image-url">Image URL/Path</label>
+          <input type="text" id="image-url" required placeholder="/assets/images/blog/example.jpg">
+        </div>
+        <div class="form-group">
+          <label for="image-alt">Alt Text</label>
+          <input type="text" id="image-alt" placeholder="Description of image">
+        </div>
+        <div class="dialog-actions">
+          <button type="button" class="button" data-ghost-button id="image-cancel">Cancel</button>
+          <button type="submit" class="button" data-button-variant="primary">Insert</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Video Dialog -->
+  <dialog class="dialog" id="video-dialog">
+    <div class="dialog-content">
+      <h3>Insert Video</h3>
+      <form id="video-form">
+        <div class="form-group">
+          <label for="video-url">Video URL</label>
+          <input type="text" id="video-url" required placeholder="https://audunase.com/assets/mp4/example.mp4">
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="video-controls" checked>
+            Show controls
+          </label>
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="video-autoplay">
+            Autoplay
+          </label>
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="video-loop" checked>
+            Loop
+          </label>
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="video-muted" checked>
+            Muted
+          </label>
+        </div>
+        <div class="dialog-actions">
+          <button type="button" class="button" data-ghost-button id="video-cancel">Cancel</button>
+          <button type="submit" class="button" data-button-variant="primary">Insert</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Link Dialog -->
+  <dialog class="dialog" id="link-dialog">
+    <div class="dialog-content">
+      <h3>Insert Link</h3>
+      <form id="link-form">
+        <div class="form-group">
+          <label for="link-url">URL</label>
+          <input type="url" id="link-url" required placeholder="https://example.com">
+        </div>
+        <div class="form-group">
+          <label for="link-text">Link Text</label>
+          <input type="text" id="link-text" required placeholder="Click here">
+        </div>
+        <div class="dialog-actions">
+          <button type="button" class="button" data-ghost-button id="link-cancel">Cancel</button>
+          <button type="submit" class="button" data-button-variant="primary">Insert</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Draft List Dialog -->
+  <dialog class="dialog" id="draft-list-dialog">
+    <div class="dialog-content" style="max-width: 40rem;">
+      <h3>Saved Drafts</h3>
+      <div id="draft-list-container" class="draft-list">
+        <!-- Drafts will be inserted here -->
+      </div>
+      <div class="dialog-actions" style="margin-top: var(--space-m);">
+        <button type="button" class="button" data-ghost-button id="draft-list-close">Close</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Save Draft Name Dialog -->
+  <dialog class="dialog" id="save-draft-name-dialog">
+    <div class="dialog-content">
+      <h3>Save Draft</h3>
+      <form id="save-draft-name-form">
+        <div class="form-group">
+          <label for="draft-name-input">Draft Name</label>
+          <input type="text" id="draft-name-input" class="draft-name-input" required placeholder="My awesome post draft" maxlength="100">
+          <small>Give your draft a name to easily identify it later</small>
+        </div>
+        <div class="dialog-actions">
+          <button type="button" class="button" data-ghost-button id="save-draft-name-cancel">Cancel</button>
+          <button type="submit" class="button" data-button-variant="primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Button Dialog -->
+  <dialog class="dialog" id="button-dialog">
+    <div class="dialog-content">
+      <h3>Insert Button</h3>
+      <form id="button-form">
+        <div class="form-group">
+          <label for="button-url">URL</label>
+          <input type="url" id="button-url" required placeholder="https://example.com">
+        </div>
+        <div class="form-group">
+          <label for="button-text">Button Text</label>
+          <input type="text" id="button-text" required placeholder="Download">
+        </div>
+        <div class="form-group">
+          <label for="button-variant">Variant</label>
+          <select id="button-variant" style="width: 100%; padding: var(--space-xs); border-radius: var(--border-radius-small); border: var(--stroke); background: var(--color-bg); color: var(--color-text);">
+            <option value="primary">Primary</option>
+            <option value="secondary">Secondary</option>
+            <option value="ghost">Ghost</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="button-newtab" checked>
+            Open in new tab
+          </label>
+        </div>
+        <div class="dialog-actions">
+          <button type="button" class="button" data-ghost-button id="button-cancel">Cancel</button>
+          <button type="submit" class="button" data-button-variant="primary">Insert</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- EasyMDE JS -->
+  <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+  
+  <script>
+    // Initialize EasyMDE
+    const editor = new EasyMDE({
+      element: document.getElementById('markdown-editor'),
+      spellChecker: false,
+      placeholder: 'Write your post content here...',
+      toolbar: [
+        'bold', 'italic', 'strikethrough', '|',
+        'heading-1', 'heading-2', 'heading-3', '|',
+        'code', 'quote', 'unordered-list', 'ordered-list', '|',
+        'link', 'image', 'table', '|',
+        'preview', 'side-by-side', 'fullscreen', '|',
+        'guide'
+      ]
+    });
+
+    // Set default date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('date').value = today;
+
+    // Dialog management - use native dialog API
+    function openDialog(dialogId) {
+      const dialog = document.getElementById(dialogId);
+      if (dialog && dialog instanceof HTMLDialogElement) {
+        dialog.showModal();
+      }
+    }
+
+    function closeDialog(dialogId) {
+      const dialog = document.getElementById(dialogId);
+      if (dialog && dialog instanceof HTMLDialogElement) {
+        dialog.close();
+      }
+    }
+
+    // Image inserter
+    document.getElementById('insert-image').addEventListener('click', () => openDialog('image-dialog'));
+    document.getElementById('image-cancel').addEventListener('click', () => closeDialog('image-dialog'));
+    document.getElementById('image-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const url = document.getElementById('image-url').value;
+      const alt = document.getElementById('image-alt').value;
+      const markdown = alt ? `![${alt}](${url})` : `![](${url})`;
+      editor.codemirror.replaceSelection(markdown);
+      document.getElementById('image-form').reset();
+      closeDialog('image-dialog');
+    });
+
+    // Video inserter
+    document.getElementById('insert-video').addEventListener('click', () => openDialog('video-dialog'));
+    document.getElementById('video-cancel').addEventListener('click', () => closeDialog('video-dialog'));
+    document.getElementById('video-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const url = document.getElementById('video-url').value;
+      const controls = document.getElementById('video-controls').checked ? 'controls' : '';
+      const autoplay = document.getElementById('video-autoplay').checked ? 'autoplay' : '';
+      const loop = document.getElementById('video-loop').checked ? 'loop' : '';
+      const muted = document.getElementById('video-muted').checked ? 'muted' : '';
+      const playsinline = 'playsinline';
+      const preload = 'preload="metadata"';
+      const attrs = [controls, autoplay, loop, muted, playsinline, preload].filter(Boolean).join(' ');
+      const html = `<video ${attrs} width="100%">\n  <source src="${url}" type="video/mp4">\n</video>`;
+      editor.codemirror.replaceSelection(html);
+      document.getElementById('video-form').reset();
+      document.getElementById('video-controls').checked = true;
+      document.getElementById('video-loop').checked = true;
+      document.getElementById('video-muted').checked = true;
+      closeDialog('video-dialog');
+    });
+
+    // Link inserter
+    document.getElementById('insert-link').addEventListener('click', () => openDialog('link-dialog'));
+    document.getElementById('link-cancel').addEventListener('click', () => closeDialog('link-dialog'));
+    document.getElementById('link-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const url = document.getElementById('link-url').value;
+      const text = document.getElementById('link-text').value;
+      const markdown = `[${text}](${url})`;
+      editor.codemirror.replaceSelection(markdown);
+      document.getElementById('link-form').reset();
+      closeDialog('link-dialog');
+    });
+
+    // Button inserter
+    document.getElementById('insert-button').addEventListener('click', () => openDialog('button-dialog'));
+    document.getElementById('button-cancel').addEventListener('click', () => closeDialog('button-dialog'));
+    document.getElementById('button-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const url = document.getElementById('button-url').value;
+      const text = document.getElementById('button-text').value;
+      const variant = document.getElementById('button-variant').value;
+      const newTab = document.getElementById('button-newtab').checked;
+      const target = newTab ? ' target="_blank" rel="noopener noreferrer"' : '';
+      const html = `<a href="${url}" class="button" data-button-variant="${variant}"${target}>${text}</a>`;
+      editor.codemirror.replaceSelection(html);
+      document.getElementById('button-form').reset();
+      document.getElementById('button-variant').value = 'primary';
+      document.getElementById('button-newtab').checked = true;
+      closeDialog('button-dialog');
+    });
+
+    // Frontmatter generator
+    function generateFrontmatter() {
+      const form = document.getElementById('frontmatter-form');
+      const formData = new FormData(form);
+      
+      const title = formData.get('title');
+      const description = formData.get('description');
+      const tagsStr = formData.get('tags') || '';
+      const date = formData.get('date') || today;
+      const draft = formData.get('draft') === 'on';
+      const image = formData.get('image') || null;
+      const alt = formData.get('alt') || null;
+      const credit = formData.get('credit') || null;
+
+      // Parse tags
+      const tags = tagsStr.split(',').map(t => t.trim()).filter(Boolean);
+      const tagsYaml = tags.length > 0 ? `tags: [${tags.map(t => `'${t}'`).join(', ')}]` : 'tags: []';
+
+      // Build frontmatter
+      let frontmatter = '---\n';
+      frontmatter += `draft: ${draft}\n`;
+      frontmatter += `title: '${title.replace(/'/g, "''")}'\n`;
+      frontmatter += `description: '${description.replace(/'/g, "''")}'\n`;
+      frontmatter += `${tagsYaml}\n`;
+      frontmatter += `date: ${date}\n`;
+      if (image) {
+        frontmatter += `image: '${image}'\n`;
+      }
+      if (alt) {
+        frontmatter += `alt: '${alt.replace(/'/g, "''")}'\n`;
+      }
+      if (credit) {
+        frontmatter += `credit: ${credit}\n`;
+      }
+      frontmatter += '---\n\n';
+
+      return frontmatter;
+    }
+
+    // Generate output
+    document.getElementById('generate-btn').addEventListener('click', () => {
+      const frontmatter = generateFrontmatter();
+      const content = editor.value();
+      const output = frontmatter + content;
+      
+      document.getElementById('output-content').textContent = output;
+      document.getElementById('copy-btn').disabled = false;
+      document.getElementById('download-btn').disabled = false;
+    });
+
+    // Copy to clipboard
+    document.getElementById('copy-btn').addEventListener('click', () => {
+      const output = document.getElementById('output-content').textContent;
+      navigator.clipboard.writeText(output).then(() => {
+        const btn = document.getElementById('copy-btn');
+        const originalText = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.disabled = true;
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.disabled = false;
+        }, 2000);
+      });
+    });
+
+    // Download
+    document.getElementById('download-btn').addEventListener('click', () => {
+      const output = document.getElementById('output-content').textContent;
+      const title = document.getElementById('title').value || 'untitled';
+      const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      const date = document.getElementById('date').value || today;
+      const filename = `${date}-${slug}.md`;
+      
+      const blob = new Blob([output], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    // Close dialogs on outside click (backdrop click)
+    document.querySelectorAll('dialog').forEach(dialog => {
+      dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) {
+          dialog.close();
+        }
+      });
+    });
+
+    // ============================================
+    // DRAFT MANAGEMENT SYSTEM
+    // ============================================
+    
+    const STORAGE_KEY = 'editor-drafts';
+    let currentDraftId = null;
+    let autoSaveTimer = null;
+    const AUTO_SAVE_DELAY = 30000; // 30 seconds
+    
+    // Get all drafts from localStorage
+    function getDrafts() {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        return stored ? JSON.parse(stored) : [];
+      } catch (e) {
+        console.error('Error reading drafts:', e);
+        return [];
+      }
+    }
+    
+    // Save drafts to localStorage
+    function saveDrafts(drafts) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(drafts));
+      } catch (e) {
+        console.error('Error saving drafts:', e);
+        alert('Error saving draft. Storage may be full.');
+      }
+    }
+    
+    // Get current editor state
+    function getEditorState() {
+      const form = document.getElementById('frontmatter-form');
+      const formData = new FormData(form);
+      
+      return {
+        title: formData.get('title') || '',
+        description: formData.get('description') || '',
+        tags: formData.get('tags') || '',
+        date: formData.get('date') || today,
+        draft: formData.get('draft') === 'on',
+        image: formData.get('image') || '',
+        alt: formData.get('alt') || '',
+        credit: formData.get('credit') || '',
+        content: editor.value() || ''
+      };
+    }
+    
+    // Load editor state
+    function loadEditorState(state) {
+      document.getElementById('title').value = state.title || '';
+      document.getElementById('description').value = state.description || '';
+      document.getElementById('tags').value = state.tags || '';
+      document.getElementById('date').value = state.date || today;
+      document.getElementById('draft').checked = state.draft || false;
+      document.getElementById('image').value = state.image || '';
+      document.getElementById('alt').value = state.alt || '';
+      document.getElementById('credit').value = state.credit || '';
+      editor.value(state.content || '');
+    }
+    
+    // Save draft with name
+    function saveDraftWithName(name) {
+      const drafts = getDrafts();
+      const state = getEditorState();
+      const now = new Date().toISOString();
+      
+      const draftData = {
+        id: currentDraftId || `draft-${Date.now()}`,
+        name: name.trim() || 'Untitled Draft',
+        created: currentDraftId ? drafts.find(d => d.id === currentDraftId)?.created || now : now,
+        modified: now,
+        state: state
+      };
+      
+      if (currentDraftId) {
+        // Update existing draft
+        const index = drafts.findIndex(d => d.id === currentDraftId);
+        if (index !== -1) {
+          drafts[index] = draftData;
+        }
+      } else {
+        // Add new draft
+        drafts.unshift(draftData);
+      }
+      
+      saveDrafts(drafts);
+      currentDraftId = draftData.id;
+      showAutoSaveStatus();
+      return draftData.id;
+    }
+    
+    // Auto-save functionality
+    function startAutoSave() {
+      // Clear existing timer
+      if (autoSaveTimer) {
+        clearTimeout(autoSaveTimer);
+      }
+      
+      // Set new timer
+      autoSaveTimer = setTimeout(() => {
+        const state = getEditorState();
+        // Only auto-save if there's content
+        if (state.content.trim() || state.title.trim()) {
+          const drafts = getDrafts();
+          const name = currentDraftId 
+            ? drafts.find(d => d.id === currentDraftId)?.name || 'Untitled Draft'
+            : 'Auto-saved Draft';
+          
+          saveDraftWithName(name);
+        }
+      }, AUTO_SAVE_DELAY);
+    }
+    
+    // Show auto-save status
+    function showAutoSaveStatus() {
+      const statusEl = document.getElementById('autosave-status');
+      statusEl.style.display = 'flex';
+      setTimeout(() => {
+        statusEl.style.display = 'none';
+      }, 3000);
+    }
+    
+    // Render draft list
+    function renderDraftList() {
+      const container = document.getElementById('draft-list-container');
+      const drafts = getDrafts();
+      
+      if (drafts.length === 0) {
+        container.innerHTML = '<div class="empty-drafts">No saved drafts yet. Start writing and save your first draft!</div>';
+        return;
+      }
+      
+      container.innerHTML = drafts.map(draft => {
+        const created = new Date(draft.created);
+        const modified = new Date(draft.modified);
+        const createdStr = created.toLocaleString();
+        const modifiedStr = modified.toLocaleString();
+        const isCurrent = draft.id === currentDraftId;
+        
+        return `
+          <div class="draft-item ${isCurrent ? 'current-draft' : ''}" data-draft-id="${draft.id}">
+            <div class="draft-info">
+              <div class="draft-name">${escapeHtml(draft.name)}${isCurrent ? ' <span style="color: var(--color-primary);">(current)</span>' : ''}</div>
+              <div class="draft-meta">
+                <span>Created: ${createdStr}</span>
+                <span>Modified: ${modifiedStr}</span>
+                ${draft.state.title ? `<span>Title: ${escapeHtml(draft.state.title)}</span>` : ''}
+              </div>
+            </div>
+            <div class="draft-actions">
+              <button type="button" class="button" data-ghost-button data-small-button onclick="loadDraft('${draft.id}')">Load</button>
+              <button type="button" class="button" data-ghost-button data-small-button onclick="renameDraft('${draft.id}')">Rename</button>
+              <button type="button" class="button" data-ghost-button data-small-button onclick="deleteDraft('${draft.id}')">Delete</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    // Escape HTML to prevent XSS
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+    
+    // Load a draft
+    window.loadDraft = function(draftId) {
+      const drafts = getDrafts();
+      const draft = drafts.find(d => d.id === draftId);
+      
+      if (!draft) {
+        alert('Draft not found');
+        return;
+      }
+      
+      if (confirm('Load this draft? Current unsaved changes will be lost.')) {
+        loadEditorState(draft.state);
+        currentDraftId = draftId;
+        closeDialog('draft-list-dialog');
+      }
+    };
+    
+    // Delete a draft
+    window.deleteDraft = function(draftId) {
+      if (!confirm('Delete this draft? This cannot be undone.')) {
+        return;
+      }
+      
+      const drafts = getDrafts();
+      const filtered = drafts.filter(d => d.id !== draftId);
+      saveDrafts(filtered);
+      
+      if (currentDraftId === draftId) {
+        currentDraftId = null;
+      }
+      
+      renderDraftList();
+    };
+    
+    // Rename a draft
+    window.renameDraft = function(draftId) {
+      const drafts = getDrafts();
+      const draft = drafts.find(d => d.id === draftId);
+      
+      if (!draft) return;
+      
+      const newName = prompt('Enter new name for draft:', draft.name);
+      if (newName && newName.trim()) {
+        draft.name = newName.trim();
+        draft.modified = new Date().toISOString();
+        saveDrafts(drafts);
+        renderDraftList();
+      }
+    };
+    
+    // Export drafts as JSON
+    function exportDrafts() {
+      const drafts = getDrafts();
+      if (drafts.length === 0) {
+        alert('No drafts to export');
+        return;
+      }
+      
+      const dataStr = JSON.stringify(drafts, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `editor-drafts-${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+    
+    // Import drafts from JSON
+    function importDrafts() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.json';
+      input.onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const imported = JSON.parse(e.target.result);
+            if (!Array.isArray(imported)) {
+              throw new Error('Invalid format');
+            }
+            
+            if (confirm(`Import ${imported.length} draft(s)? This will add them to your existing drafts.`)) {
+              const existing = getDrafts();
+              // Merge, avoiding duplicates by ID
+              const existingIds = new Set(existing.map(d => d.id));
+              const newDrafts = imported.filter(d => !existingIds.has(d.id));
+              const merged = [...existing, ...newDrafts];
+              saveDrafts(merged);
+              renderDraftList();
+              alert(`Imported ${newDrafts.length} draft(s) successfully.`);
+            }
+          } catch (err) {
+            alert('Error importing drafts. Please check the file format.');
+            console.error(err);
+          }
+        };
+        reader.readAsText(file);
+      };
+      input.click();
+    }
+    
+    // Event listeners for draft management
+    document.getElementById('save-draft-btn').addEventListener('click', () => {
+      const state = getEditorState();
+      if (!state.content.trim() && !state.title.trim()) {
+        alert('Nothing to save. Add some content first.');
+        return;
+      }
+      
+      if (currentDraftId) {
+        // Update existing draft
+        const drafts = getDrafts();
+        const draft = drafts.find(d => d.id === currentDraftId);
+        if (draft) {
+          const newName = prompt('Update draft name (or leave blank to keep current):', draft.name);
+          saveDraftWithName(newName ? newName.trim() : draft.name);
+          alert('Draft updated!');
+          return;
+        }
+      }
+      
+      // New draft - ask for name
+      document.getElementById('draft-name-input').value = state.title || '';
+      openDialog('save-draft-name-dialog');
+    });
+    
+    document.getElementById('save-draft-name-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('draft-name-input').value.trim();
+      if (!name) {
+        alert('Please enter a draft name');
+        return;
+      }
+      
+      saveDraftWithName(name);
+      closeDialog('save-draft-name-dialog');
+      alert('Draft saved!');
+    });
+    
+    document.getElementById('save-draft-name-cancel').addEventListener('click', () => {
+      closeDialog('save-draft-name-dialog');
+    });
+    
+    document.getElementById('load-draft-btn').addEventListener('click', () => {
+      renderDraftList();
+      openDialog('draft-list-dialog');
+    });
+    
+    document.getElementById('draft-list-close').addEventListener('click', () => {
+      closeDialog('draft-list-dialog');
+    });
+    
+    document.getElementById('export-drafts-btn').addEventListener('click', exportDrafts);
+    document.getElementById('import-drafts-btn').addEventListener('click', importDrafts);
+    
+    // Auto-save on input changes
+    const formInputs = document.querySelectorAll('#frontmatter-form input, #frontmatter-form textarea');
+    formInputs.forEach(input => {
+      input.addEventListener('input', startAutoSave);
+      input.addEventListener('change', startAutoSave);
+    });
+    
+    // Auto-save on editor content changes
+    editor.codemirror.on('change', startAutoSave);
+    
+    // Initialize: try to load last draft on page load (optional)
+    // Uncomment if you want to auto-load the last draft
+    // window.addEventListener('load', () => {
+    //   const drafts = getDrafts();
+    //   if (drafts.length > 0 && confirm('Load your last draft?')) {
+    //     loadDraft(drafts[0].id);
+    //   }
+    // });
+  </script>
+</body>
+</html>
