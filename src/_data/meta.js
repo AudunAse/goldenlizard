@@ -11,7 +11,7 @@ export const author = {
   name: 'Audun Ase', // i.e. Lene Saile - page / blog author's name. Must be set.
   avatar: '/icon-512x512.png', // path to the author's avatar. In this case just using a favicon.
   email: 'mail@audunase.com', // i.e. hola@lenesaile.com - email of the author
-  website: 'ttps://www.goldenlizard.io', // i.e. https.://www.lenesaile.com - the personal site of the author
+  website: 'https://www.goldenlizard.io', // i.e. https.://www.lenesaile.com - the personal site of the author
   fediverse: '' // used for highlighting journalism on the fediverse. Can be Mastodon, Flipboard, Threads, WordPress (with the ActivityPub plugin installed), PeerTube, Pixelfed, etc. https://blog.joinmastodon.org/2024/07/highlighting-journalism-on-mastodon/
 };
 export const creator = {
@@ -26,7 +26,7 @@ export const themeLight = '#f8f8f8'; // used for meta tag theme-color, if light 
 export const themeDark = '#2e2e2e'; // used for meta tag theme-color, if dark colors are prefered. best use value set for dark bg
 export const opengraph_default = '/assets/images/template/opengraph-default.jpg'; // fallback/default meta image
 export const opengraph_default_alt =
-  "Visible content: An Eleventy starter with CUBE CSS, Cube CSS, Every Layout, Design Tokens and Tailwind for uitility classes. A workflow for building modern and resilient websites, introduced by Andy Bell's project buildexcellentwebsit.es"; // alt text for default meta image"
+  "The Lizard's Den – creative ramblings from Audun Ase, a 10-year FX veteran. Houdini, Unity, Blender and more.";
 export const blog = {
   // RSS feed
   name: 'Lizard Ramblings @ The Lizard Den',
