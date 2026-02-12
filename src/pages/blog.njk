@@ -58,9 +58,6 @@ permalink: 'blog/{% if pagination.pageNumber >=1 %}page-{{ pagination.pageNumber
                 <p class="blog-list-excerpt">{{ post.data.description }}</p>
               {% endif %}
             </div>
-            <time class="blog-list-date" datetime="{{ post.date | formatDate('yyyy-MM-dd') }}">
-              {{ post.date | formatDate('MMM dd') }}
-            </time>
           </a>
         </article>
       {%- endfor -%}

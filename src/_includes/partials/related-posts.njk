@@ -13,8 +13,8 @@
           {% if post.data.description %}
           <p class="related-post-description">{{ post.data.description }}</p>
           {% endif %}
-          <time class="related-post-date" datetime="{{ post.date | formatDate('yyyy-MM-dd') }}">
-            {{ post.date | formatDate('MMM dd, yyyy') }}
+          <time class="related-post-date" datetime="{{ post.date | formatDate('YYYY-MM-DD') }}">
+            {{ post.date | formatDate('MMM D, YYYY') }}
           </time>
         </article>
       </li>

@@ -27,7 +27,7 @@ To expand on this, you could even quantize attributes. So let's say you create s
 
 If you want to give this a shot, import the following code.
 
-<a href="http://goldenlizard.io/assets/uti/AttributePixelation.uti" class="button" data-button-variant="primary" target="_blank" rel="noopener noreferrer">Download</a>
+<a href="https://drive.google.com/uc?export=download&id=1kyjUfxKFwCgM2R_7HwP1JFBG5cYVNgTB" class="button" data-button-variant="primary" download>Download</a>
 
 NB: This is a .UTI file created by the script as seen here: [Store selected nodes](https://goldenlizard.io/blog/store-selected-nodes-using-python/)
 If you just want to import it, use this code from a python shelf
