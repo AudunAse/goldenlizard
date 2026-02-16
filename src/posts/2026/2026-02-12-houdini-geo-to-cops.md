@@ -4,6 +4,11 @@ title: 'Houdini Geo To Cops'
 description: "Mini tutorial on passing geometry to Houdini 21's Copernicus workflow + seamless tilable texture"
 tags: ['houdini', 'tips', 'tutorial']
 date: 2026-02-12
+tips:
+  - title: 'Resolve Intersections'
+    anchor: 'resolve-intersections'
+  - title: 'Rasterize Geo to Cops Size'
+    anchor: 'rasterize-geo-to-cops-size'
 ---
 
 Something I've found quite useful is being able to get geometry information into cops. After a bit of reading and experimenting, here's what I've learned. As a bonus, we'll make a pile of bricks tilable for game textures.
@@ -16,6 +21,7 @@ To show the concept let's say we have a brick!
 Using a cube, and pointsfromvolume I scatter some points that I attach these bricks to:
 ![Pile of brick prepped for sim](/assets/images/blog/copsrasterize/brickPrep.png)
 
+## Resolve Intersections
 **Tip**: To resolve intersections, you can add an `attribute create` SOP, name the attribute `found_overlap`, and set it to integer = 1. This will make the RBD solver try to resolve them for you!
 
 ![found overlap attribute creation](/assets/images/blog/copsrasterize/foundOverlap.png)
@@ -32,6 +38,7 @@ I just let the bricks drop by gravity
 To make this tilable I use a node from the SideFX Labs package. It's called `mesh tiler`.
 ![mesh tile setup screenshot](/assets/images/blog/copsrasterize/meshTiler.png)
 
+## Rasterize Geo to Cops Size
 **Tip**: Since we're moving to cops, the space we're rasterizing is a 1x1m grid. You can reference a camera in the rasterize geo node. *But I'm keeping it simple by sticking to this 1x1m grid.*
 
 Here's the tiled result
