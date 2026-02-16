@@ -3,7 +3,7 @@ layout: base
 title: Lizard Logs
 description: 'Posts and notes.'
 pagination:
-  data: collections.allPosts
+  data: collections.nonPinnedPosts
   size: 10
 permalink: 'blog/{% if pagination.pageNumber >=1 %}page-{{ pagination.pageNumber + 1 }}/{% endif %}index.html'
 ---
@@ -17,6 +17,20 @@ permalink: 'blog/{% if pagination.pageNumber >=1 %}page-{{ pagination.pageNumber
 
   <div class="region blog-list-region" style="--region-space-top: var(--space-m)">
     <div class="blog-list-container">
+      
+      {% set pinnedToShow = collections.pinnedPosts.slice(0, 3) %}
+      {%- if pinnedToShow.length > 0 -%}
+      <nav class="pinned-section" aria-label="Pinned posts">
+        <span class="pinned-label">Pinned</span>
+        <ul class="pinned-list" role="list">
+          {%- for post in pinnedToShow -%}
+          <li class="pinned-item">
+            <a href="{{ post.url }}" class="pinned-link">{{ post.data.title }}</a>
+          </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+      {%- endif -%}
       
       <!-- Tag Filter -->
       <div class="blog-filter">
@@ -65,7 +79,7 @@ permalink: 'blog/{% if pagination.pageNumber >=1 %}page-{{ pagination.pageNumber
   </div>
 
   <!-- set collection to paginate -->
-  {% set collectionToPaginate = collections.posts %}
+  {% set collectionToPaginate = collections.nonPinnedPosts %}
   <!-- set target pagination settings in meta.js -->
   {% set metaKey = "blog" %}
   <!-- if the number of items in the collection is greater than the number of items shown on one page -->

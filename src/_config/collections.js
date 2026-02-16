@@ -3,6 +3,20 @@ export const getAllPosts = collection => {
   return collection.getFilteredByGlob('./src/posts/**/*.md').reverse();
 };
 
+/** Pinned posts only. Sorted by date (newest first). Limited for display. */
+export const getPinnedPosts = collection => {
+  const all = collection.getFilteredByGlob('./src/posts/**/*.md');
+  return all
+    .filter(item => item.data?.pinned === true)
+    .sort((a, b) => (b.date || 0) - (a.date || 0));
+};
+
+/** All posts excluding pinned ones. For main blog list pagination. */
+export const getNonPinnedPosts = collection => {
+  const all = getAllPosts(collection);
+  return all.filter(item => item.data?.pinned !== true);
+};
+
 /** All relevant pages as a collection for sitemap.xml */
 export const showInSitemap = collection => {
   return collection.getFilteredByGlob('./src/**/*.{md,njk}');
