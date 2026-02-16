@@ -13,6 +13,11 @@ Quick reference for what’s been changed and what’s left to do. Edit this fil
 
 ## Done / changelog
 
+- **The Vault**
+  - New dedicated page at `/vault/` (in nav) that lists all tips from across the blog.
+  - Tips are defined in post frontmatter: `tips: [{ title, anchor }]` — each links to post#anchor.
+  - Added `allTips` collection; tag filter on vault page.
+  - Tips added to: Houdini Notes (1), The Vault post (15).
 - **SEO / meta**
   - Fixed author website typo (`ttps` → `https` in meta.js).
   - Updated `opengraph_default_alt` to describe The Lizard's Den (Audun Ase, FX veteran, Houdini/Unity/Blender).

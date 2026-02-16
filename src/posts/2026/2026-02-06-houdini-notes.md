@@ -4,6 +4,9 @@ title: 'Houdini Notes'
 description: 'This is where I''ll chuck any notes I''d like to keep, created as my space to re-visit when needed. '
 tags: ['houdini', 'tips']
 date: 2026-02-06
+tips:
+  - title: 'Parameter spreadsheet filter order'
+    anchor: 'parameter-spreadsheet'
 ---
 
 Small notes I write down to remember in the future. Stuff I find handy, maybe you will too. I dunno. Have a browse if you like!

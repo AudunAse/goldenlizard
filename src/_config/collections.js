@@ -17,3 +17,23 @@ export const tagList = collection => {
   });
   return Array.from(tagsSet).sort();
 };
+
+/** All tips from posts - flattened for The Vault page. Each tip has title, anchor, sourcePost, url, tags. Sorted by source post date (newest first). */
+export const allTips = collection => {
+  const posts = collection.getFilteredByGlob('./src/posts/**/*.md');
+  const postsByDate = [...posts].sort((a, b) => {
+    const dateA = a.data.date ? new Date(a.data.date) : new Date(0);
+    const dateB = b.data.date ? new Date(b.data.date) : new Date(0);
+    return dateB - dateA; // newest first
+  });
+  return postsByDate.flatMap(post => {
+    const tips = post.data?.tips || [];
+    return tips.map(tip => ({
+      title: tip.title,
+      anchor: tip.anchor,
+      sourcePost: post,
+      url: `${post.url}#${tip.anchor}`,
+      tags: post.data.tags || []
+    }));
+  });
+};
