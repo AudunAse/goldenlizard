@@ -1,0 +1,52 @@
+[33mcommit d18c96527affcb6137af2845ff1baf5eb5949cf6[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Audun Ase <mail@audunase.com>
+Date:   Mon Feb 16 14:19:01 2026 +0100
+
+    Add tips to Houdini Geo To Cops post (Resolve Intersections, Rasterize Geo to Cops Size)
+    
+    Co-authored-by: [1;31mCursor[m <cursoragent@cursor.com>
+
+[33mcommit 31682b8c1b2192e4384304885026d9d9194f1381[m
+Author: Audun Ase <mail@audunase.com>
+Date:   Mon Feb 16 14:06:35 2026 +0100
+
+    Add The Vault page: tips collection from blog posts
+    
+    - New /vault/ page with tag filtering, linked in nav
+    - Tips defined in post frontmatter (title, anchor), link to source
+    - allTips collection, sorted by post date (newest first)
+    - Tips added to Houdini Notes and The Vault post
+    
+    Co-authored-by: [1;31mCursor[m <cursoragent@cursor.com>
+
+[33mcommit 7f6172d741da8cb543241b07efcc11c483b222a8[m
+Author: Audun Ase <mail@audunase.com>
+Date:   Thu Feb 12 12:36:25 2026 +0100
+
+    SEO: fix author website typo, update opengraph alt text
+    
+    Co-authored-by: [1;31mCursor[m <cursoragent@cursor.com>
+
+[33mcommit 3c61c113b752e071360bd18a1447cd8821e54eb5[m
+Author: Audun Ase <mail@audunase.com>
+Date:   Thu Feb 12 12:13:25 2026 +0100
+
+    Add Houdini Geo to Cops post with proofreading fixes
+    
+    Co-authored-by: [1;31mCursor[m <cursoragent@cursor.com>
+
+[33mcommit bdaabc96f95600fef581f31e2de86e8533ac2ce2[m
+Author: Audun Ase <mail@audunase.com>
+Date:   Thu Feb 12 08:43:55 2026 +0100
+
+    Fix date formatting in related posts and remove dates from blog list
+    
+    Co-authored-by: [1;31mCursor[m <cursoragent@cursor.com>
+
+[33mcommit 23f12b0ce8992e332b0f4e4a00ec746455ec2f70[m
+Author: Audun Ase <mail@audunase.com>
+Date:   Fri Feb 6 22:04:39 2026 +0100
+
+    Related posts, link colors, editor drafts, posts and assets
+    
+    Co-authored-by: [1;31mCursor[m <cursoragent@cursor.com>
