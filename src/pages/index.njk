@@ -4,7 +4,7 @@ permalink: /index.html
 title: 'the lizards den'
 description: 'Lizards Den, a creative notebook'
 blog:
-  title: 'Lizard Logs'
+  title: 'Posts'
 ---
 
 <div class="wrapper region" style="--region-space-top: var(--space-xl-2xl)">
@@ -21,17 +21,38 @@ blog:
     </div>
   </article>
 
+  <section class="full | region" style="--region-space-top: var(--space-m)">
+    <div class="wrapper flow prose">
+      <h3 class="text-step-0">What's New</h3>
+      <ul class="changelog-list">
+        {% for entry in changelog.slice(0, 5) %}
+        <li>
+          <time datetime="{{ entry.date }}">{{ entry.date | formatDate('MMM D, YYYY') }}:</time>
+          {% if entry.link %}
+          <a href="{{ entry.link }}">{{ entry.description }}</a>
+          {% else %}
+          <span>{{ entry.description }}</span>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+
   <section class="full | region" style="--region-space-top: var(--space-l)">
     <div class="wrapper flow prose">
       <h3 class="text-step-1">{{ blog.title }}</h3>
       <div class="feature |  region region-space-l">
         <custom-masonry layout="50-50">
           {% set itemList = collections.allPosts %}
-					{% asyncEach item in itemList.slice(0, 4) %}
+					{% asyncEach item in itemList.slice(0, 6) %}
             {% set headingLevel = "h3" %}
 						{% include "partials/card-blog.njk" %}
 					{% endeach %}
         </custom-masonry>
+      </div>
+      <div style="text-align: center; margin-top: var(--space-l);">
+        <a href="/blog/" class="view-all-posts">View all posts →</a>
       </div>
     </div>
   </section>
@@ -39,4 +60,56 @@ blog:
 
 {%- css "local" -%}
   {%- include 'css/box-layout.css' -%}
+
+  .changelog-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .changelog-list li {
+    display: flex;
+    gap: var(--space-xs);
+    padding: var(--space-2xs) 0;
+    border-bottom: 1px solid var(--color-stroke);
+  }
+
+  .changelog-list li:last-child {
+    border-bottom: none;
+  }
+
+  .changelog-list time {
+    flex-shrink: 0;
+    font-size: var(--size-step--1);
+    color: var(--color-text-muted);
+    font-weight: 700;
+  }
+
+  .changelog-list a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .changelog-list a:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  .view-all-posts {
+    display: inline-block;
+    padding: var(--space-xs) var(--space-m);
+    background-color: var(--color-primary);
+    color: var(--color-bg);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    font-weight: 700;
+    transition: background-color 0.2s ease;
+  }
+
+  .view-all-posts:hover {
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+    padding: calc(var(--space-xs) - 2px) calc(var(--space-m) - 2px);
+  }
 {%- endcss -%}

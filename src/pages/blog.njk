@@ -51,16 +51,16 @@ permalink: 'blog/{% if pagination.pageNumber >=1 %}page-{{ pagination.pageNumber
       
       {% set currentYear = 0 %}
       {% set currentFilteredYear = 0 %}
-      
+
       {%- for post in pagination.items -%}
         {% set year = post.date.getFullYear() %}
         {% set postTags = post.data.tags | join(' ') %}
-        
+
         {% if year != currentYear %}
           {% set currentYear = year %}
         {% endif %}
-        
-        <article class="blog-list-item" data-tags="{{ postTags }}" data-year="{{ year }}">
+
+        <article class="blog-list-item" data-tags="{{ postTags }}" data-year="{{ year }}" data-page="current">
           {% if year != currentFilteredYear %}
             <h2 class="blog-year" data-year="{{ year }}">{{ year }}</h2>
             {% set currentFilteredYear = year %}
@@ -72,8 +72,37 @@ permalink: 'blog/{% if pagination.pageNumber >=1 %}page-{{ pagination.pageNumber
                 <p class="blog-list-excerpt">{{ post.data.description }}</p>
               {% endif %}
             </div>
+            <time class="blog-list-date" datetime="{{ post.date }}">{{ post.date | formatDate('MMM D, YYYY') }}</time>
           </a>
         </article>
+      {%- endfor -%}
+
+      <!-- Hidden posts for filtering (all other posts not on current page) -->
+      {%- for post in collections.nonPinnedPosts -%}
+        {%- set isOnCurrentPage = false -%}
+        {%- for pagePost in pagination.items -%}
+          {%- if pagePost.url == post.url -%}
+            {%- set isOnCurrentPage = true -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if not isOnCurrentPage -%}
+          {% set year = post.date.getFullYear() %}
+          {% set postTags = post.data.tags | join(' ') %}
+
+          <article class="blog-list-item" data-tags="{{ postTags }}" data-year="{{ year }}" data-page="other" style="display: none;">
+            <h2 class="blog-year" data-year="{{ year }}" style="display: none;">{{ year }}</h2>
+            <a href="{{ post.url }}" class="blog-list-link">
+              <div class="blog-list-content">
+                <h3 class="blog-list-title">{{ post.data.title }}</h3>
+                {% if post.data.description %}
+                  <p class="blog-list-excerpt">{{ post.data.description }}</p>
+                {% endif %}
+              </div>
+              <time class="blog-list-date" datetime="{{ post.date }}">{{ post.date | formatDate('MMM D, YYYY') }}</time>
+            </a>
+          </article>
+        {%- endif -%}
       {%- endfor -%}
     </div>
   </div>
@@ -85,7 +114,9 @@ permalink: 'blog/{% if pagination.pageNumber >=1 %}page-{{ pagination.pageNumber
   <!-- if the number of items in the collection is greater than the number of items shown on one page -->
   {% if collectionToPaginate.length > pagination.size %}
     <!-- include pagination -->
-    {% include 'partials/pagination.njk' %}
+    <div class="pagination-container">
+      {% include 'partials/pagination.njk' %}
+    </div>
   {% endif %}
 </div>
 
@@ -95,22 +126,32 @@ permalink: 'blog/{% if pagination.pageNumber >=1 %}page-{{ pagination.pageNumber
     const filterBtns = document.querySelectorAll('.blog-filter-btn');
     const blogItems = document.querySelectorAll('.blog-list-item');
     const yearHeaders = document.querySelectorAll('.blog-year');
-    
+    const paginationContainer = document.querySelector('.pagination-container');
+
     filterBtns.forEach(btn => {
       btn.addEventListener('click', function() {
         const filter = this.getAttribute('data-filter');
-        
+
         // Update active button
         filterBtns.forEach(b => b.classList.remove('active'));
         this.classList.add('active');
-        
+
         // Filter items
         blogItems.forEach(item => {
+          const isCurrentPage = item.getAttribute('data-page') === 'current';
+          const itemTags = item.getAttribute('data-tags') || '';
+
           if (filter === 'all') {
-            item.style.display = '';
-            item.classList.remove('filtered-out');
+            // Show only current page items when "All" is selected
+            if (isCurrentPage) {
+              item.style.display = '';
+              item.classList.remove('filtered-out');
+            } else {
+              item.style.display = 'none';
+              item.classList.add('filtered-out');
+            }
           } else {
-            const itemTags = item.getAttribute('data-tags') || '';
+            // Show all items matching the filter (across all pages)
             if (itemTags.includes(filter)) {
               item.style.display = '';
               item.classList.remove('filtered-out');
@@ -120,24 +161,42 @@ permalink: 'blog/{% if pagination.pageNumber >=1 %}page-{{ pagination.pageNumber
             }
           }
         });
-        
+
+        // Show/hide pagination based on filter
+        if (paginationContainer) {
+          if (filter === 'all') {
+            paginationContainer.style.display = '';
+          } else {
+            paginationContainer.style.display = 'none';
+          }
+        }
+
         // Update year headers visibility
         updateYearHeaders();
       });
     });
-    
+
     function updateYearHeaders() {
-      const visibleYears = new Set();
+      // Track which years have visible posts
+      const visibleYears = new Map();
+
       blogItems.forEach(item => {
         if (item.style.display !== 'none') {
-          visibleYears.add(item.getAttribute('data-year'));
+          const year = item.getAttribute('data-year');
+          if (!visibleYears.has(year)) {
+            visibleYears.set(year, true);
+          }
         }
       });
-      
+
+      // Show/hide year headers and avoid duplicates
+      const processedYears = new Set();
       yearHeaders.forEach(header => {
-        const year = header.textContent.trim();
-        if (visibleYears.has(year)) {
+        const year = header.getAttribute('data-year');
+
+        if (visibleYears.has(year) && !processedYears.has(year)) {
           header.style.display = '';
+          processedYears.add(year);
         } else {
           header.style.display = 'none';
         }
