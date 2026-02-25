@@ -1,0 +1,26 @@
+{% if showToc %}
+  {% set tocItems = content | generateToc %}
+  {% if tocItems.length > 0 %}
+    <aside class="toc">
+      <nav aria-labelledby="toc-heading">
+        <h2 id="toc-heading" class="toc__heading text-step-0">Table of Contents</h2>
+        <ol class="toc__list">
+          {% for item in tocItems %}
+            <li class="toc__item">
+              <a href="#{{ item.id }}" class="toc__link">{{ item.text }}</a>
+              {% if item.children.length > 0 %}
+                <ol class="toc__sublist">
+                  {% for child in item.children %}
+                    <li class="toc__subitem">
+                      <a href="#{{ child.id }}" class="toc__link">{{ child.text }}</a>
+                    </li>
+                  {% endfor %}
+                </ol>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ol>
+      </nav>
+    </aside>
+  {% endif %}
+{% endif %}

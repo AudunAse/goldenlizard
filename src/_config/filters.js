@@ -7,6 +7,7 @@ import {striptags} from './filters/striptags.js';
 import {slugifyString} from './filters/slugify.js';
 import {splitString} from './filters/split.js';
 import {relatedPosts} from './filters/related-posts.js';
+import {generateToc} from './filters/toc.js';
 
 export default {
   toISOString,
@@ -18,5 +19,6 @@ export default {
   sortAlphabetically,
   slugifyString,
   split: splitString,
-  relatedPosts
+  relatedPosts,
+  generateToc
 };

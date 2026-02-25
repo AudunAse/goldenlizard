@@ -1,0 +1,60 @@
+/* Table of Contents */
+.toc {
+  background-color: var(--color-bg-glare);
+  border-left: 3px solid var(--color-primary);
+  padding: var(--space-s) var(--space-m);
+  margin-block: var(--space-m-l);
+  border-radius: var(--border-radius-base);
+}
+
+.toc__heading {
+  margin-block-start: 0;
+  margin-block-end: var(--space-xs);
+  font-weight: var(--font-bold);
+}
+
+.toc__list,
+.toc__sublist {
+  list-style: none;
+  padding-inline-start: 0;
+  margin: 0;
+}
+
+.toc__list {
+  counter-reset: toc-counter;
+}
+
+.toc__item {
+  counter-increment: toc-counter;
+  margin-block-end: var(--space-2xs);
+}
+
+.toc__item::before {
+  content: counter(toc-counter) ". ";
+  font-weight: var(--font-bold);
+  color: var(--color-primary);
+}
+
+.toc__sublist {
+  margin-block-start: var(--space-2xs);
+  margin-inline-start: var(--space-s);
+  padding-inline-start: var(--space-s);
+  border-left: 1px solid var(--color-stroke);
+}
+
+.toc__subitem {
+  margin-block-end: var(--space-3xs);
+  font-size: var(--size-step-min-1);
+}
+
+.toc__link {
+  color: var(--color-text);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.toc__link:hover,
+.toc__link:focus {
+  border-bottom-color: var(--color-primary);
+}

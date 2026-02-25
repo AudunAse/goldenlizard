@@ -1,8 +1,8 @@
 {
-  "name": "eleventy-excellent",
+  "name": "goldenlizard",
   "version": "4.3.3",
-  "description": "Eleventy starter built around the workflow suggested by Andy Bell's buildexcellentwebsit.es.",
-  "author": "Lene Saile",
+  "description": "Goldenlizard.io by Audun Ase - Personal site and creative workshop built with Eleventy.",
+  "author": "Audun Ase",
   "license": "ISC",
   "type": "module",
   "engines": {
@@ -17,12 +17,12 @@
     "dev:11ty": "cross-env ELEVENTY_ENV=development eleventy --serve",
     "build:11ty": "cross-env ELEVENTY_ENV=production eleventy",
     "start": "npm run dev:11ty",
-    "build": "npm run clean && npm run build:11ty"
+    "build": "npm run clean && npm run build:11ty && npx pagefind --site dist"
   },
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": "https://github.com/madrilene/eleventy-excellent.git"
+    "url": "https://github.com/AudunAse/goldenlizard.git"
   },
   "dependencies": {
     "@11ty/eleventy": "^3.1.2",
@@ -33,6 +33,7 @@
     "@11ty/eleventy-plugin-webc": "^0.11.2",
     "@11ty/is-land": "^4.0.1",
     "decap-cms-app": "^3.8.3",
+    "jsdom": "^28.1.0",
     "lite-youtube-embed": "^0.3.3",
     "tailwindcss": "^3.4.17"
   },
@@ -58,6 +59,7 @@
     "markdown-it-mark": "^4.0.0",
     "markdown-it-prism": "^3.0.0",
     "netlify-plugin-cache": "^1.0.3",
+    "pagefind": "^1.4.0",
     "postcss": "^8.5.6",
     "postcss-cli": "^11.0.1",
     "postcss-import": "^16.1.1",

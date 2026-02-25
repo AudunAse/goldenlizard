@@ -36,6 +36,8 @@ schema: BlogPosting,BreadcrumbList
       {% endif %}
     </p>
 
+    {% include 'partials/toc.njk' %}
+
     {{ content | safe | replace('<p>', '<p class="drop-cap">', 1) }}
     {% include 'partials/edit-on.njk' %}
     
@@ -60,4 +62,5 @@ schema: BlogPosting,BreadcrumbList
   {%- include 'css/footnotes.css' -%}
   {%- include 'css/breadcrumbs.css' -%}
   {%- include 'css/related-posts.css' -%}
+  {%- include 'css/toc.css' -%}
 {%- endcss -%}

@@ -4,6 +4,7 @@ title: 'Houdini Notes'
 description: 'This is where I''ll chuck any notes I''d like to keep, created as my space to re-visit when needed. '
 tags: ['houdini', 'tips']
 date: 2026-02-06
+showToc: true
 tips:
   - title: 'Parameter spreadsheet filter order'
     anchor: 'parameter-spreadsheet'
@@ -14,13 +15,6 @@ tips:
 ---
 
 This is a post gathering small notes I write down to remember in the future. Stuff I find handy, maybe you will too. I dunno. Have a browse if you like!
-
-#### Overview:
-
-**INTERFACE:** 
-[Parameter spreadsheet](#parameter-spreadsheet)
-[Probability based attribute](#probability-based-attribute)
-[Use a button to randomise attributes](#use-a-button-to-randomise-attributes)
 
 ## Parameter spreadsheet
 
@@ -72,7 +66,7 @@ It's simple, but adds a touch of convenience to the digital assets.
 
 Use the following script in the buttons "Callback Script" set to Python.
 
-`Note that this button will specifically target the integer parameter I created called "seed", I do this since I like to see the result from the buttonpress`
+`Note that this button will specifically target the integer parameter I created called "seed", I do this since I like to see the result from the button press`
 ```py
 import random; kwargs['node'].parm('seed').set(random.randint(0, 99999))
 ```

@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-02-25",
+    "description": "Expanded The Vault with new VEX snippets, expressions, and workflow tips",
+    "link": "/blog/the-vault/"
+  },
+  {
     "date": "2026-02-23",
     "description": "Added more tips to Houdini Notes",
     "link": "/blog/houdini-notes/"

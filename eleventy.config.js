@@ -92,6 +92,7 @@ export default async function (eleventyConfig) {
   eleventyConfig.addFilter('slugify', filters.slugifyString);
   eleventyConfig.addFilter('split', filters.split);
   eleventyConfig.addFilter('relatedPosts', filters.relatedPosts);
+  eleventyConfig.addFilter('generateToc', filters.generateToc);
 
   // --------------------- Shortcodes
   eleventyConfig.addShortcode('svg', shortcodes.svgShortcode);
