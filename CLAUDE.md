@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Git Commits
+
+Do not add a `Co-Authored-By` line to commit messages.
+
 ## Project Overview
 
 This is "The Lizard's Den" (Golden Lizard) - a personal site and creative workshop built with Eleventy. It includes a blog, notes, gallery, and "The Vault" (a tips collection). Based on the [Eleventy Excellent](https://github.com/madrilene/eleventy-excellent) starter, following the CUBE CSS methodology from [buildexcellentwebsit.es](https://buildexcellentwebsit.es/).
