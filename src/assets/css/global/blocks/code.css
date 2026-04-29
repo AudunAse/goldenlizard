@@ -10,11 +10,11 @@
 
 code,
 pre {
-  font-family: var(--font-mono);
+  font-family: var(--font-code);
   font-size: var(--size-step-min-1);
   background-color: var(--color-code-bg);
 
-  border-radius: var(--border-radius-medium);
+  border-radius: 0;
 }
 
 code[class*='language-'],
@@ -55,7 +55,7 @@ pre.has-copy-btn {
   top: var(--space-s);
   right: var(--space-s);
   padding: var(--space-2xs) var(--space-xs);
-  font-family: var(--font-mono);
+  font-family: var(--font-code);
   font-size: var(--size-step-min-2);
   color: var(--color-text);
   background: color-mix(in oklab, var(--color-code-bg) 80%, var(--color-text));

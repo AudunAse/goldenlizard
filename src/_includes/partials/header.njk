@@ -1,11 +1,20 @@
-<header class="wrapper">
+<header class="site-header">
   <a href="#main" class="skip-link">{{ meta.skipContent }}</a>
 
-  <div class="repel ontop gutter-s">
-    <a href="/" class="logo | cluster" {{ indicateActiveHome }}>
-
-      <span class="font-display" style="font-size: 1.35em; font-weight: 700;">{{ meta.siteName }}</span>
+  <div class="site-header__inner">
+    <a href="/" class="site-header__logo" {{ indicateActiveHome }}>
+      <span class="site-header__name">{{ meta.siteName }}</span>
     </a>
-    {% include "partials/main-nav.njk" %}
+
+    <div class="site-header__right">
+      {% include "partials/main-nav.njk" %}
+      <button class="search-button" data-search-open aria-label="Search posts (Ctrl+K)" title="Search (Ctrl+K)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
+        </svg>
+      </button>
+      {% include "partials/theme-switch.njk" %}
+    </div>
   </div>
 </header>

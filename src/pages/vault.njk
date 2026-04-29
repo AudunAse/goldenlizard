@@ -5,52 +5,43 @@ description: 'A collection of useful tips, snippets and workflows from across th
 permalink: /vault/index.html
 ---
 
-<div class="wrapper">
-  <header class="vault-header region" style="--region-space-top: var(--space-xl-2xl)">
-    <div class="vault-container flow">
-      <h1 class="vault-title">{{ title }}</h1>
-      <p class="vault-description">{{ description }}</p>
-      <p class="vault-hint">Tips are collected from blog posts. Each links straight to the source.</p>
-    </div>
+<div class="vault-page">
+  <header class="vault-page__header">
+    <h1 class="vault-page__title">{{ title }}</h1>
+    <p class="vault-page__description">{{ description }}</p>
   </header>
 
-  <div class="region vault-region" style="--region-space-top: var(--space-m)">
-    <div class="vault-container">
-      
-      {% if collections.allTips | length > 0 %}
-      <!-- Tag Filter -->
-      <div class="vault-filter">
-        <span class="vault-filter-label">Filter:</span>
-        <button class="vault-filter-btn active" data-filter="all">All</button>
-        {% set allTags = [] %}
-        {%- for tip in collections.allTips -%}
-          {%- for tag in tip.tags -%}
-            {%- if tag and tag != 'posts' and tag not in allTags -%}
-              {% set allTags = (allTags.push(tag), allTags) %}
-            {%- endif -%}
-          {%- endfor -%}
-        {%- endfor -%}
-        {%- for tag in allTags | sort -%}
-          <button class="vault-filter-btn" data-filter="{{ tag }}">{{ tag | capitalize }}</button>
-        {%- endfor -%}
-      </div>
-      
-      <ul class="vault-list">
-        {%- for tip in collections.allTips -%}
-          {% set tipTags = tip.tags | join(' ') %}
-          <li class="vault-list-item" data-tags="{{ tipTags }}">
-            <a href="{{ tip.url }}" class="vault-list-link">
-              <span class="vault-list-title">{{ tip.title }}</span>
-              <span class="vault-list-source">{{ tip.sourcePost.data.title }}</span>
-            </a>
-          </li>
-        {%- endfor -%}
-      </ul>
-      {% else %}
-      <p class="vault-empty">No tips yet. Add a <code>tips</code> array to post frontmatter to surface them here.</p>
-      {% endif %}
-    </div>
+  {% if collections.allTips | length > 0 %}
+  <!-- Tag Filter -->
+  <div class="vault-filter">
+    <button class="vault-filter-btn active" data-filter="all">All</button>
+    {% set allTags = [] %}
+    {%- for tip in collections.allTips -%}
+      {%- for tag in tip.tags -%}
+        {%- if tag and tag != 'posts' and tag not in allTags -%}
+          {% set allTags = (allTags.push(tag), allTags) %}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endfor -%}
+    {%- for tag in allTags | sort -%}
+      <button class="vault-filter-btn" data-filter="{{ tag }}">{{ tag | capitalize }}</button>
+    {%- endfor -%}
   </div>
+
+  <ul class="vault-list" role="list">
+    {%- for tip in collections.allTips -%}
+      {% set tipTags = tip.tags | join(' ') %}
+      <li class="vault-list-item" data-tags="{{ tipTags }}">
+        <a href="{{ tip.url }}" class="vault-row">
+          <span class="vault-row__title">{{ tip.title }}</span>
+          <span class="vault-row__source">{{ tip.sourcePost.data.title }}</span>
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+  {% else %}
+  <p class="vault-empty">No tips yet. Add a <code>tips</code> array to post frontmatter to surface them here.</p>
+  {% endif %}
 </div>
 
 <script>
@@ -58,16 +49,16 @@ permalink: /vault/index.html
   (function() {
     const filterBtns = document.querySelectorAll('.vault-filter-btn');
     const vaultItems = document.querySelectorAll('.vault-list-item');
-    
+
     if (filterBtns.length === 0) return;
-    
+
     filterBtns.forEach(btn => {
       btn.addEventListener('click', function() {
         const filter = this.getAttribute('data-filter');
-        
+
         filterBtns.forEach(b => b.classList.remove('active'));
         this.classList.add('active');
-        
+
         vaultItems.forEach(item => {
           if (filter === 'all') {
             item.style.display = '';

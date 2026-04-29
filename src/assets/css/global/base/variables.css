@@ -1,77 +1,107 @@
-/* Global variables.  */
+/* Global variables — new design system */
 
-/* Basic variable definitions for color schemes */
 :root {
-  --gutter: var(--space-m-l);
+  /* Spacing scale (8px base) */
+  --s1: 8px;
+  --s2: 16px;
+  --s3: 24px;
+  --s4: 32px;
+  --s5: 40px;
+  --s6: 48px;
+  --s7: 64px;
+  --s8: 80px;
+  --s9: 96px;
+  --s10: 128px;
+
+  /* Layout */
+  --max-content: 680px;
+  --max-wide: 1120px;
+  --nav-h: 56px;
+
+  /* Fonts */
+  --font: 'Merriweather', Georgia, 'Times New Roman', serif;
+  --mono: 'Courier New', 'Cascadia Code', monospace;
+  --code: 'MonaspaceArgon', ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+
+  /* Transitions */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --transition-duration: 250ms;
   --transition-timing: ease;
-  --wrapper-width: 85rem;
+
+  /* Keep legacy token references for compatibility */
+  --gutter: var(--s3);
   --tracking: 0.01ch;
   --tracking-s: -0.03ch;
   --tracking-wide: 0.04ch;
-  --stroke: 1px solid var(--color-bg-accent);
-
-  --gradient-rainbow: linear-gradient(90deg, #cf4662 10%, #fbbe25 30%, #62c95c 50%, #08bccb 75%, #a977d5 90%);
-  --gradient-conic: conic-gradient(
-    var(--color-primary) 0 28%,
-    var(--color-secondary) 0 67%,
-    var(--color-tertiary) 0 100%
-  );
-  --gradient-stripes: linear-gradient(
-    45deg,
-    var(--color-gray-900) 0 75%,
-    var(--color-primary) 0 85%,
-    var(--color-secondary) 0 92%,
-    var(--color-tertiary) 0 100%
-  );
-
-  --color-background: #f5f3f0;
-
-  --color-light: var(--color-gray-100);
-  --color-dark: var(--color-gray-900);
-  --color-mid: var(--color-gray-400);
+  --stroke: 1px solid var(--border);
 }
 
-/* Light theme */
+/* Light theme (default) */
 :root,
 :root[data-theme='light'] {
-  --color-text: #2a2a2a;
-  --color-bg: #f5f3f0;
+  --bg: #f5f3f0;
+  --bg2: #eceae6;
+  --bg3: #e4e2de;
+  --text: #2a2a2a;
+  --text2: #888480;
+  --text3: #b0aca8;
+  --border: #dedad6;
+  --accent: #fbbe25;
 
-  --color-primary: var(--color-pink);
-  --color-secondary: var(--color-blue);
-  --color-tertiary: var(--color-gold);
-
-  --color-text-accent: #3a3a3a;
-  --color-bg-accent: #e8e6e3;
-  --color-bg-accent-2: #ddd9d4;
+  /* Legacy mappings for existing components */
+  --color-text: var(--text);
+  --color-bg: var(--bg);
+  --color-primary: var(--accent);
+  --color-secondary: var(--accent);
+  --color-tertiary: var(--accent);
+  --color-text-accent: var(--text2);
+  --color-bg-accent: var(--bg2);
+  --color-bg-accent-2: var(--bg3);
+  --color-background: var(--bg);
+  --color-light: #f8f8f8;
+  --color-dark: #161616;
+  --color-mid: var(--text2);
 }
 
 /* Dark theme */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --color-text: #f5f3f0;
-    --color-bg: #2a2a2a;
+  :root:not([data-theme='light']) {
+    --bg: #1a1815;
+    --bg2: #222019;
+    --bg3: #2c2a26;
+    --text: #f0ede8;
+    --text2: #8a8680;
+    --text3: #5a5652;
+    --border: #302e2a;
 
-    --color-primary: var(--color-pink-subdued);
-    --color-secondary: var(--color-blue-subdued);
-    --color-tertiary: var(--color-gold-subdued);
-
-    --color-text-accent: #e8e6e3;
-    --color-bg-accent: #3a3a3a;
-    --color-bg-accent-2: #484848;
+    --color-text: var(--text);
+    --color-bg: var(--bg);
+    --color-primary: var(--accent);
+    --color-secondary: var(--accent);
+    --color-tertiary: var(--accent);
+    --color-text-accent: var(--text2);
+    --color-bg-accent: var(--bg2);
+    --color-bg-accent-2: var(--bg3);
+    --color-background: var(--bg);
   }
 }
+
 :root[data-theme='dark'] {
-  --color-background: #2a2a2a;
-  --color-text: #f5f3f0;
-  --color-bg: #2a2a2a;
+  --bg: #1a1815;
+  --bg2: #222019;
+  --bg3: #2c2a26;
+  --text: #f0ede8;
+  --text2: #8a8680;
+  --text3: #5a5652;
+  --border: #302e2a;
 
-  --color-primary: var(--color-pink-subdued);
-  --color-secondary: var(--color-blue-subdued);
-  --color-tertiary: var(--color-gold-subdued);
-
-  --color-text-accent: #e8e6e3;
-  --color-bg-accent: #3a3a3a;
-  --color-bg-accent-2: #484848;
+  --color-text: var(--text);
+  --color-bg: var(--bg);
+  --color-primary: var(--accent);
+  --color-secondary: var(--accent);
+  --color-tertiary: var(--accent);
+  --color-text-accent: var(--text2);
+  --color-bg-accent: var(--bg2);
+  --color-bg-accent-2: var(--bg3);
+  --color-background: var(--bg);
 }

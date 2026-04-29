@@ -1,84 +1,11 @@
+/* Hero — kept for legacy compatibility, primary hero is now inline in index.njk */
 .hero-section {
-    display: grid;
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
+  display: grid;
+  width: 100%;
+  position: relative;
 }
 
 .hero-section--contained {
-    width: 100%;
-    left: 0;
-    transform: none;
-    max-width: 100%;
-}
-
-/* Clip text element */
-.clip-text {
-    font-size: clamp(4rem, 10vw + .5rem, 6rem);
-    text-transform: lowercase;
-    position: relative;
-    display: inline-block;
-    padding-bottom: 3em;
-    text-align: left;
-    /* Color fallback */
-    color: #fff;
-    -webkit-background-clip: text;
-
-    -webkit-text-fill-color: transparent;
-}
-
-.clip-text--full-width {
-  font-size: clamp(4rem, 10vw + 1rem, 12rem);
-  margin-bottom: clamp(-2.6rem, -0.5rem - 2vw, -1.0rem);
-}
-
-.clip-text:before,
-.clip-text:after {
-    position: absolute;
-    content: '';
-}
-
-/* Background */
-.clip-text:before {
-    z-index: -2;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-image: inherit;
-
-}
-
-/* Text Background (black zone) */
-.clip-text:after {
-    position: absolute;
-    z-index: -1;
-    top: .0em;
-    right: .0em;
-    bottom: 3.2em;
-    left: .0em;
-    background-color: var(--color-background);
-}
-
-/* Change the background position to display letter when the black zone isn't here */
-.clip-text--no-textzone:before {
-    
-}
-
-.clip-text--no-textzone:after {
-    content: none;
-}
-
-/* Use Background-size cover for photo background and no-repeat background */
-.clip-text--cover,
-.clip-text--cover:before {
-    background-repeat: no-repeat;
-    -webkit-background-size: cover;
-            background-size: cover;
-  background-position: center;
-}
-
-.clip-text_one {
-    background-image: var(--hero-image-url);
+  width: 100%;
+  max-width: 100%;
 }

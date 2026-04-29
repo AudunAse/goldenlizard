@@ -21,9 +21,9 @@ export const creator = {
   social: ''
 };
 export const pathToSvgLogo = 'src/assets/svg/misc/logo.svg'; // used for favicon generation
-export const themeColor = '#dd4462'; // used in manifest, for example primary color value
-export const themeLight = '#f8f8f8'; // used for meta tag theme-color, if light colors are prefered. best use value set for light bg
-export const themeDark = '#2e2e2e'; // used for meta tag theme-color, if dark colors are prefered. best use value set for dark bg
+export const themeColor = '#fbbe25'; // gold accent
+export const themeLight = '#f5f3f0'; // light theme bg
+export const themeDark = '#1a1815'; // dark theme bg
 export const opengraph_default = '/assets/images/template/opengraph-default.jpg'; // fallback/default meta image
 export const opengraph_default_alt =
   "The Lizard's Den – creative ramblings from Audun Ase, a 10-year FX veteran. Houdini, Unity, Blender and more.";

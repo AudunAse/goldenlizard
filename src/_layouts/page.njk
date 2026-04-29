@@ -2,7 +2,30 @@
 layout: base
 ---
 
-<div class="region wrapper flow prose" style="--region-space-top: var(--space-xl-2xl)">
-  <h1 class="text-primary">{{ title }}</h1>
-  {{ content | safe }}
+<div class="page-layout">
+  <h1 class="page-layout__title">{{ title }}</h1>
+  <div class="page-layout__body prose flow">
+    {{ content | safe | replace('<p>', '<p class="drop-cap">', 1) }}
+  </div>
 </div>
+
+{%- css "local" -%}
+  .page-layout {
+    max-width: var(--max-content);
+    margin: 0 auto;
+    padding: var(--s8) var(--s3) var(--s9);
+  }
+
+  .page-layout__title {
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    margin-bottom: var(--s5);
+  }
+
+  .page-layout__body {
+    font-size: 19px;
+    font-weight: 300;
+    line-height: 1.85;
+  }
+{%- endcss -%}

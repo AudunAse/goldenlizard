@@ -1,39 +1,143 @@
-.post article h1 {
-  font-size: var(--size-step-6);
+/* Post page — editorial layout */
+
+/* Reading progress bar */
+.reading-progress {
+  position: fixed;
+  top: var(--nav-h);
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  z-index: 99;
+  transition: transform 0.1s linear;
 }
 
-.post article h2 {
-  font-size: var(--size-step-3);
+.post-page {
+  max-width: var(--max-wide);
+  margin: 0 auto;
+  padding: 0 var(--s3);
 }
 
-.post article h3 {
-  font-size: var(--size-step-2);
+.post-page__header {
+  max-width: var(--max-content);
+  padding-top: var(--s7);
+  margin-bottom: var(--s6);
 }
 
-/* make featured image alwyays 16/9 */
-.post h1 + :is(picture, figure) img {
-  max-inline-size: var(--max-img-width, 100%);
-  block-size: auto;
+/* Back link */
+.post-back {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text2);
+  text-decoration: none;
+  margin-bottom: var(--s4);
+  transition: color 0.15s linear;
+}
+
+.post-back:hover {
+  color: var(--accent);
+}
+
+/* Post meta */
+.post-meta {
+  margin-bottom: var(--s3);
+}
+
+.post-draft-badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 2px 8px;
+  margin-right: var(--s2);
+}
+
+.post-tags {
+  display: inline-flex;
+  gap: var(--s1);
+  flex-wrap: wrap;
+}
+
+.post-tag {
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: var(--text3);
+  text-decoration: none;
+  transition: color 0.15s linear;
+}
+
+.post-tag:hover {
+  color: var(--accent);
+}
+
+/* Post title */
+.post-title {
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+/* Byline */
+.post-byline {
+  margin-top: var(--s3);
+  font-size: 13px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text2);
+}
+
+/* Feature image */
+.post-feature-image {
+  margin-bottom: var(--s6);
+}
+
+.post-feature-image img {
+  width: 100%;
+  max-width: var(--max-content);
+  height: auto;
   aspect-ratio: 16/9;
   object-fit: cover;
-  object-position: center;
 }
 
-.post date {
-  font-size: var(--size-step-1);
-  color: var(--color-text-light);
+/* Post body prose */
+.post-body {
+  max-width: var(--max-content);
+  font-size: 19px;
+  font-weight: 300;
+  line-height: 1.85;
 }
 
-.post .credit {
-  font-size: var(--size-step-min-1);
-  color: var(--color-text-accent);
-  background-color: var(--color-bg);
-  padding: var(--space-xs) var(--space-s);
-  border-radius: var(--border-radius-medium);
-  transform: translateY(-4ch) translateX(-0.5ch);
-  max-inline-size: fit-content;
+.post-body h2 {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
 }
 
-.post .meta {
-  font-size: var(--size-step-min-1);
+.post-body h3 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.post-body img {
+  cursor: pointer;
+}
+
+/* Credit text under featured images */
+.post-page .credit {
+  font-size: 13px;
+  color: var(--text2);
 }

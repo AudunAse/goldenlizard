@@ -1,6 +1,6 @@
 ---
 layout: base
-title: Lizard Logs
+title: Blog
 description: 'Posts and notes.'
 pagination:
   data: collections.nonPinnedPosts
@@ -8,112 +8,82 @@ pagination:
 permalink: 'blog/{% if pagination.pageNumber >=1 %}page-{{ pagination.pageNumber + 1 }}/{% endif %}index.html'
 ---
 
-<div class="wrapper">
-  <header class="blog-header region" style="--region-space-top: var(--space-xl-2xl)">
-    <div class="blog-list-container flow">
-      <h1 class="blog-title">{{ title }}</h1>
-    </div>
+<div class="blog-page">
+  <header class="blog-page__header">
+    <h1 class="blog-page__title">{{ title }}</h1>
   </header>
 
-  <div class="region blog-list-region" style="--region-space-top: var(--space-m)">
-    <div class="blog-list-container">
-      
-      {% set pinnedToShow = collections.pinnedPosts.slice(0, 3) %}
-      {%- if pinnedToShow.length > 0 -%}
-      <nav class="pinned-section" aria-label="Pinned posts">
-        <span class="pinned-label">Pinned</span>
-        <ul class="pinned-list" role="list">
-          {%- for post in pinnedToShow -%}
-          <li class="pinned-item">
-            <a href="{{ post.url }}" class="pinned-link">{{ post.data.title }}</a>
-          </li>
-          {%- endfor -%}
-        </ul>
-      </nav>
-      {%- endif -%}
-      
-      <!-- Tag Filter -->
-      <div class="blog-filter">
-        <span class="blog-filter-label">Filter:</span>
-        <button class="blog-filter-btn active" data-filter="all">All</button>
-        {% set allTags = [] %}
-        {%- for post in collections.allPosts -%}
-          {%- for tag in post.data.tags -%}
-            {%- if tag and tag != 'posts' and tag not in allTags -%}
-              {% set allTags = (allTags.push(tag), allTags) %}
-            {%- endif -%}
-          {%- endfor -%}
-        {%- endfor -%}
-        {%- for tag in allTags | sort -%}
-          <button class="blog-filter-btn" data-filter="{{ tag }}">{{ tag | capitalize }}</button>
-        {%- endfor -%}
-      </div>
-      
-      {% set currentYear = 0 %}
-      {% set currentFilteredYear = 0 %}
+  <!-- Tag Filter -->
+  <div class="blog-filter">
+    <button class="blog-filter-btn active" data-filter="all">All</button>
+    {% set allTags = [] %}
+    {%- for post in collections.allPosts -%}
+      {%- for tag in post.data.tags -%}
+        {%- if tag and tag != 'posts' and tag not in allTags -%}
+          {% set allTags = (allTags.push(tag), allTags) %}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endfor -%}
+    {%- for tag in allTags | sort -%}
+      <button class="blog-filter-btn" data-filter="{{ tag }}">{{ tag | capitalize }}</button>
+    {%- endfor -%}
+  </div>
 
-      {%- for post in pagination.items -%}
+  <div class="blog-list">
+    {% set currentYear = 0 %}
+    {% set currentFilteredYear = 0 %}
+
+    {%- for post in pagination.items -%}
+      {% set year = post.date.getFullYear() %}
+      {% set postTags = post.data.tags | join(' ') %}
+
+      {% if year != currentFilteredYear %}
+        <span class="blog-year" data-year="{{ year }}">{{ year }}</span>
+        {% set currentFilteredYear = year %}
+      {% endif %}
+
+      <article class="blog-list-item" data-tags="{{ postTags }}" data-year="{{ year }}" data-page="current">
+        <a href="{{ post.url }}" class="blog-row">
+          <time class="blog-row__date" datetime="{{ post.date }}">{{ post.date | formatDate('MMM D, YYYY') }}</time>
+          <span class="blog-row__title">{{ post.data.title }}</span>
+          <span class="blog-row__tags">
+            {% for tag in post.data.tags %}{% if tag != "posts" %}{{ tag }}{% if not loop.last %} · {% endif %}{% endif %}{% endfor %}
+          </span>
+        </a>
+      </article>
+    {%- endfor -%}
+
+    <!-- Hidden posts for filtering (all other posts not on current page) -->
+    {%- for post in collections.nonPinnedPosts -%}
+      {%- set isOnCurrentPage = false -%}
+      {%- for pagePost in pagination.items -%}
+        {%- if pagePost.url == post.url -%}
+          {%- set isOnCurrentPage = true -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if not isOnCurrentPage -%}
         {% set year = post.date.getFullYear() %}
         {% set postTags = post.data.tags | join(' ') %}
 
-        {% if year != currentYear %}
-          {% set currentYear = year %}
-        {% endif %}
-
-        <article class="blog-list-item" data-tags="{{ postTags }}" data-year="{{ year }}" data-page="current">
-          {% if year != currentFilteredYear %}
-            <h2 class="blog-year" data-year="{{ year }}">{{ year }}</h2>
-            {% set currentFilteredYear = year %}
-          {% endif %}
-          <a href="{{ post.url }}" class="blog-list-link">
-            <div class="blog-list-content">
-              <h3 class="blog-list-title">{{ post.data.title }}</h3>
-              {% if post.data.description %}
-                <p class="blog-list-excerpt">{{ post.data.description }}</p>
-              {% endif %}
-            </div>
-            <time class="blog-list-date" datetime="{{ post.date }}">{{ post.date | formatDate('MMM D, YYYY') }}</time>
+        <article class="blog-list-item" data-tags="{{ postTags }}" data-year="{{ year }}" data-page="other" style="display: none;">
+          <span class="blog-year" data-year="{{ year }}" style="display: none;">{{ year }}</span>
+          <a href="{{ post.url }}" class="blog-row">
+            <time class="blog-row__date" datetime="{{ post.date }}">{{ post.date | formatDate('MMM D, YYYY') }}</time>
+            <span class="blog-row__title">{{ post.data.title }}</span>
+            <span class="blog-row__tags">
+              {% for tag in post.data.tags %}{% if tag != "posts" %}{{ tag }}{% if not loop.last %} · {% endif %}{% endif %}{% endfor %}
+            </span>
           </a>
         </article>
-      {%- endfor -%}
-
-      <!-- Hidden posts for filtering (all other posts not on current page) -->
-      {%- for post in collections.nonPinnedPosts -%}
-        {%- set isOnCurrentPage = false -%}
-        {%- for pagePost in pagination.items -%}
-          {%- if pagePost.url == post.url -%}
-            {%- set isOnCurrentPage = true -%}
-          {%- endif -%}
-        {%- endfor -%}
-
-        {%- if not isOnCurrentPage -%}
-          {% set year = post.date.getFullYear() %}
-          {% set postTags = post.data.tags | join(' ') %}
-
-          <article class="blog-list-item" data-tags="{{ postTags }}" data-year="{{ year }}" data-page="other" style="display: none;">
-            <h2 class="blog-year" data-year="{{ year }}" style="display: none;">{{ year }}</h2>
-            <a href="{{ post.url }}" class="blog-list-link">
-              <div class="blog-list-content">
-                <h3 class="blog-list-title">{{ post.data.title }}</h3>
-                {% if post.data.description %}
-                  <p class="blog-list-excerpt">{{ post.data.description }}</p>
-                {% endif %}
-              </div>
-              <time class="blog-list-date" datetime="{{ post.date }}">{{ post.date | formatDate('MMM D, YYYY') }}</time>
-            </a>
-          </article>
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
+      {%- endif -%}
+    {%- endfor -%}
   </div>
 
-  <!-- set collection to paginate -->
+  <!-- Pagination (shown only when "All" filter active) -->
   {% set collectionToPaginate = collections.nonPinnedPosts %}
-  <!-- set target pagination settings in meta.js -->
   {% set metaKey = "blog" %}
-  <!-- if the number of items in the collection is greater than the number of items shown on one page -->
   {% if collectionToPaginate.length > pagination.size %}
-    <!-- include pagination -->
     <div class="pagination-container">
       {% include 'partials/pagination.njk' %}
     </div>
@@ -132,17 +102,14 @@ permalink: 'blog/{% if pagination.pageNumber >=1 %}page-{{ pagination.pageNumber
       btn.addEventListener('click', function() {
         const filter = this.getAttribute('data-filter');
 
-        // Update active button
         filterBtns.forEach(b => b.classList.remove('active'));
         this.classList.add('active');
 
-        // Filter items
         blogItems.forEach(item => {
           const isCurrentPage = item.getAttribute('data-page') === 'current';
           const itemTags = item.getAttribute('data-tags') || '';
 
           if (filter === 'all') {
-            // Show only current page items when "All" is selected
             if (isCurrentPage) {
               item.style.display = '';
               item.classList.remove('filtered-out');
@@ -151,7 +118,6 @@ permalink: 'blog/{% if pagination.pageNumber >=1 %}page-{{ pagination.pageNumber
               item.classList.add('filtered-out');
             }
           } else {
-            // Show all items matching the filter (across all pages)
             if (itemTags.includes(filter)) {
               item.style.display = '';
               item.classList.remove('filtered-out');
@@ -162,22 +128,15 @@ permalink: 'blog/{% if pagination.pageNumber >=1 %}page-{{ pagination.pageNumber
           }
         });
 
-        // Show/hide pagination based on filter
         if (paginationContainer) {
-          if (filter === 'all') {
-            paginationContainer.style.display = '';
-          } else {
-            paginationContainer.style.display = 'none';
-          }
+          paginationContainer.style.display = filter === 'all' ? '' : 'none';
         }
 
-        // Update year headers visibility
         updateYearHeaders();
       });
     });
 
     function updateYearHeaders() {
-      // Track which years have visible posts
       const visibleYears = new Map();
 
       blogItems.forEach(item => {
@@ -189,7 +148,6 @@ permalink: 'blog/{% if pagination.pageNumber >=1 %}page-{{ pagination.pageNumber
         }
       });
 
-      // Show/hide year headers and avoid duplicates
       const processedYears = new Set();
       yearHeaders.forEach(header => {
         const year = header.getAttribute('data-year');

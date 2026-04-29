@@ -68,11 +68,15 @@
 
     <script src="/assets/scripts/components/copy-code.js"></script>
 
+    {%- if layout == "post" -%}
+      <script src="/assets/scripts/components/lightbox.js"></script>
+    {%- endif -%}
+
     <script>
       // Back to top functionality
       (function() {
         const backToTopBtn = document.getElementById('back-to-top');
-        
+
         function toggleBackToTop() {
           if (window.scrollY > 300) {
             backToTopBtn.classList.add('visible');
@@ -80,9 +84,9 @@
             backToTopBtn.classList.remove('visible');
           }
         }
-        
+
         window.addEventListener('scroll', toggleBackToTop, { passive: true });
-        
+
         backToTopBtn.addEventListener('click', function() {
           window.scrollTo({
             top: 0,

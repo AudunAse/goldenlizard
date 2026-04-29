@@ -1,20 +1,19 @@
-/* Based on Andy Bell, https://github.com/Andy-set-studio/personal-site-eleventy */
+/* Prose — editorial typography */
 
 .prose {
-  --flow-space: var(--space-m-l);
-  --wrapper-width: 64rem;
+  --flow-space: var(--s4);
 }
 
 .prose :is(pre, pre + *, figure, picture) {
-  --flow-space: var(--space-m-l);
+  --flow-space: var(--s5);
 }
 
 .prose :is(figure + *, picture + *) {
-  --flow-space: var(--space-xl);
+  --flow-space: var(--s6);
 }
 
 .prose :is(img, video) {
-  border: var(--stroke);
+  border: 1px solid var(--border);
 }
 
 .prose :is(h2, h3, h4) {
@@ -23,7 +22,7 @@
   hyphens: auto;
 }
 
-@media screen(md) {
+@media (min-width: 680px) {
   .prose :is(h1, h2, h3) {
     overflow-wrap: unset;
     hyphens: unset;
@@ -31,7 +30,7 @@
 }
 
 .prose :is(h1, h2, h3, h4) + *:not([class]):not(figure) {
-  --flow-space: var(--space-l);
+  --flow-space: var(--s3);
 }
 
 .prose :is(p, li, dl, blockquote) {
@@ -48,19 +47,19 @@
 }
 
 .prose mark {
-  background-color: var(--color-tertiary);
-  color: var(--color-dark);
+  background-color: var(--accent);
+  color: var(--bg);
 }
 
 /* block space only for "regular lists" and sublists */
 .prose :is(ul, ol):not([class]) li + li,
 .prose :is(ul, ol):not([class]) li > :is(ol, ul) {
-  padding-block-start: var(--space-s);
+  padding-block-start: var(--s2);
 }
 
 /* marker only for "regular lists" */
 .prose :is(ul:not([class]):not([role='list'])) li::marker {
-  color: var(--color-primary);
+  color: var(--accent);
   content: '– ';
 }
 
@@ -73,20 +72,19 @@
 }
 
 .prose ol li::marker {
-  color: var(--color-primary);
+  color: var(--accent);
 }
 
 .prose img {
-  border-radius: var(--border-radius-medium);
+  border-radius: 0;
 }
 
-@media screen(ltsm) {
+@media (max-width: 640px) {
   .prose > *,
   .prose a {
     overflow-wrap: break-word;
     word-wrap: break-word;
     word-break: break-word;
-    /* Adds a hyphen where the word breaks, if supported (No Blink) */
     hyphens: auto;
   }
 }

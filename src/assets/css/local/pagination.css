@@ -1,41 +1,44 @@
+/* Pagination — minimal editorial style */
 .pagination {
-  --gutter: var(--space-xs-s);
+  --gutter: 4px;
 }
 
 .pagination li {
-  color: var(--pagination-text, var(--color-text));
-  background-color: var(--pagination-bg, var(--color-bg));
-  border: 3px solid var(--pagination-border, var(--color-bg-accent));
-  border-radius: var(--border-radius-medium);
+  color: var(--text2);
+  background-color: transparent;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  font-size: 13px;
+  font-weight: 300;
 }
 
 .pagination li:not(:has(a)) {
-  padding: var(--space-xs) var(--space-s-m);
-  opacity: 0.6;
+  padding: 6px 12px;
+  opacity: 0.4;
 }
 
 .pagination a {
-  text-decoration: none;
-}
-
-.pagination a {
-  padding: var(--space-xs) var(--space-s-m);
+  padding: 6px 12px;
   text-decoration: none;
   display: block;
-}
-
-.pagination li:not(:has(a)) {
-  padding: var(--space-xs) var(--space-s-m);
-  opacity: 0.6;
+  color: var(--text2);
+  transition: color 0.15s linear, border-color 0.15s linear;
 }
 
 .pagination li:has(a:hover) {
-  --pagination-bg: var(--color-bg-accent);
-  --pagination-border: var(--color-bg-accent);
+  border-color: var(--accent);
+}
+
+.pagination li:has(a:hover) a {
+  color: var(--text);
 }
 
 .pagination li:has(a[aria-current='page']) {
-  --pagination-bg: var(--color-secondary);
-  --pagination-border: var(--color-secondary);
-  --pagination-text: var(--color-light);
+  background-color: var(--text);
+  border-color: var(--text);
+  color: var(--bg);
+}
+
+.pagination li:has(a[aria-current='page']) a {
+  color: var(--bg);
 }

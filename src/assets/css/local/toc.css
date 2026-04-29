@@ -1,16 +1,16 @@
 /* Table of Contents */
 .toc {
-  background-color: var(--color-bg-glare);
-  border-left: 3px solid var(--color-primary);
-  padding: var(--space-s) var(--space-m);
-  margin-block: var(--space-m-l);
-  border-radius: var(--border-radius-base);
+  background-color: var(--bg2);
+  border-left: 3px solid var(--accent);
+  padding: var(--s2) var(--s3);
+  margin-block: var(--s4);
 }
 
 .toc__heading {
   margin-block-start: 0;
-  margin-block-end: var(--space-xs);
-  font-weight: var(--font-bold);
+  margin-block-end: var(--s1);
+  font-weight: 700;
+  font-size: 15px;
 }
 
 .toc__list,
@@ -26,35 +26,35 @@
 
 .toc__item {
   counter-increment: toc-counter;
-  margin-block-end: var(--space-2xs);
+  margin-block-end: 4px;
 }
 
 .toc__item::before {
   content: counter(toc-counter) ". ";
-  font-weight: var(--font-bold);
-  color: var(--color-primary);
+  font-weight: 700;
+  color: var(--accent);
 }
 
 .toc__sublist {
-  margin-block-start: var(--space-2xs);
-  margin-inline-start: var(--space-s);
-  padding-inline-start: var(--space-s);
-  border-left: 1px solid var(--color-stroke);
+  margin-block-start: 4px;
+  margin-inline-start: var(--s2);
+  padding-inline-start: var(--s2);
+  border-left: 1px solid var(--border);
 }
 
 .toc__subitem {
-  margin-block-end: var(--space-3xs);
-  font-size: var(--size-step-min-1);
+  margin-block-end: 2px;
+  font-size: 15px;
 }
 
 .toc__link {
-  color: var(--color-text);
+  color: var(--text);
   text-decoration: none;
   border-bottom: 1px solid transparent;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.15s linear;
 }
 
 .toc__link:hover,
 .toc__link:focus {
-  border-bottom-color: var(--color-primary);
+  border-bottom-color: var(--accent);
 }

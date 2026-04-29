@@ -3,42 +3,66 @@ layout: base
 schema: BlogPosting
 ---
 
-<div class="region" style="--region-space-top: var(--space-xl-5xl)">
-  <div class="region wrapper flow prose">
+<!-- Reading progress bar -->
+<div class="reading-progress" id="reading-progress"></div>
 
-    <section class="flow region region-space-m">
-      <a href="/blog/" class="button" data-ghost-button>Back to blog</a>
-    </section>
+<div class="post-page">
+  <div class="post-page__header">
+    <a href="/blog/" class="post-back">&larr; Blog</a>
+
+    <div class="post-meta">
+      {%- if draft -%}
+        <span class="post-draft-badge">draft</span>
+      {%- endif %}
+      {% if tags.length > 1 %}
+        <span class="post-tags">
+          {% for tag in tags %}{% if tag != "posts" %}
+            <a class="post-tag" href="/tags/{{ tag | slugify }}/">{{ tag }}</a>
+          {% endif %}{% endfor %}
+        </span>
+      {% endif %}
     </div>
 
-      <div class="wrapper">
-  <h1 class="clip-text clip-text--cover clip-text_one" style="--hero-image-url: url('{{ image }}')">
-    {{ title }}
-  </h1>
-</div>
+    <h1 class="post-title">{{ title }}</h1>
 
-<div class="region" style="--region-space-top: var(--space-xl-5xl)">
-  <div class="region wrapper flow prose">
-
-    {# This part is similar to your original post layout #}
-    <p class="meta | cluster gutter-xs-s">
-      {%- if draft -%}
-        <span class="button" data-small-button data-button-variant="tertiary">draft</span>
-      {%- endif %}
+    <div class="post-byline">
       {% set definedDate = date %} {% include "partials/date.njk" %}
-      {% if tags.length > 1 %}
-        {% for tag in tags %}{% if tag != "posts" %}
-          <a class="button" href="/tags/{{ tag | slugify }}/" data-small-button> {{ tag }} </a>
-        {% endif %}{% endfor %}
-      {% endif %}
-    </p>
-
-    {{ content | safe | replace('<p>', '<p class="drop-cap">', 1) }}
-    {% include 'partials/edit-on.njk' %}
+    </div>
   </div>
+
+  {% if image %}
+    <div class="post-feature-image">
+      <img src="{{ image }}" alt="{{ alt or title }}" style="width:100%; max-width: var(--max-wide); height: auto; aspect-ratio: 16/9; object-fit: cover;">
+    </div>
+  {% endif %}
+
+  <div class="post-body prose flow">
+    {{ content | safe | replace('<p>', '<p class="drop-cap">', 1) }}
+  </div>
+
+  {% include 'partials/edit-on.njk' %}
 </div>
+
+<script>
+  // Reading progress bar
+  (function() {
+    const progressBar = document.getElementById('reading-progress');
+    if (!progressBar) return;
+
+    function updateProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+      progressBar.style.transform = 'scaleX(' + progress + ')';
+    }
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+  })();
+</script>
 
 {%- css "local" -%}
   {%- include 'css/post.css' -%}
   {%- include 'css/footnotes.css' -%}
+  {%- include 'css/gallery.css' -%}
 {%- endcss -%}

@@ -1,57 +1,62 @@
-/* Related Posts */
+/* Related Posts — row list style */
 .related-posts {
-  margin-top: var(--space-xl);
-  padding-top: var(--space-xl);
-  border-top: 1px solid var(--color-bg-accent);
+  max-width: var(--max-content);
+  margin-top: var(--s8);
+  padding-top: var(--s6);
+  border-top: 1px solid var(--border);
 }
 
 .related-posts h2 {
-  margin-bottom: var(--space-m);
-  font-size: var(--size-step-2);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: var(--s3);
 }
 
 .related-posts-list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-m);
 }
 
 .related-post-item {
-  padding: var(--space-m);
-  background: var(--color-bg-accent);
-  border-radius: var(--border-radius-medium);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--border);
+  transition: opacity 0.15s linear;
 }
 
 .related-post-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  opacity: 0.6;
 }
 
 .related-post-title {
-  margin: 0 0 var(--space-xs);
-  font-size: var(--size-step-1);
+  margin: 0;
+  font-size: 17px;
+  font-weight: 400;
 }
 
 .related-post-title a {
-  color: var(--color-text);
+  color: var(--text);
   text-decoration: none;
-  transition: color 0.2s ease;
 }
 
 .related-post-title a:hover {
-  color: var(--color-primary);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 3px;
 }
 
 .related-post-description {
-  margin: 0 0 var(--space-xs);
-  color: var(--color-text-accent);
-  font-size: var(--size-step-0);
-  line-height: var(--leading-standard);
+  margin: 4px 0 0;
+  color: var(--text2);
+  font-size: 15px;
+  display: none;
 }
 
 .related-post-date {
-  font-size: var(--size-step-min-1);
-  color: var(--color-text-accent);
-  font-family: var(--font-mono);
+  font-size: 13px;
+  font-style: italic;
+  color: var(--text2);
 }

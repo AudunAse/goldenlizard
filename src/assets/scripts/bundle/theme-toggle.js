@@ -9,22 +9,20 @@ const theme = {
 };
 
 window.onload = () => {
-  const lightThemeToggle = document.querySelector('#light-theme-toggle');
-  const darkThemeToggle = document.querySelector('#dark-theme-toggle');
-  const switcher = document.querySelector('[data-theme-switcher]');
+  const toggleBtn = document.querySelector('[data-theme-toggle]');
 
-  if (!switcher) {
+  if (!toggleBtn) {
     return;
   }
 
   reflectPreference();
   updateMetaThemeColor();
 
-  lightThemeToggle.addEventListener('click', () => onClick('light'));
-  darkThemeToggle.addEventListener('click', () => onClick('dark'));
-
-  lightThemeToggle.setAttribute('aria-pressed', theme.value === 'light');
-  darkThemeToggle.setAttribute('aria-pressed', theme.value === 'dark');
+  toggleBtn.addEventListener('click', () => {
+    theme.value = theme.value === 'light' ? 'dark' : 'light';
+    setPreference();
+    updateMetaThemeColor();
+  });
 };
 
 // sync with system changes
@@ -34,19 +32,10 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ({m
   updateMetaThemeColor();
 });
 
-function onClick(themeValue) {
-  theme.value = themeValue;
-  document.querySelector('#light-theme-toggle').setAttribute('aria-pressed', themeValue === 'light');
-  document.querySelector('#dark-theme-toggle').setAttribute('aria-pressed', themeValue === 'dark');
-  setPreference();
-  updateMetaThemeColor();
-}
-
 function getColorPreference() {
   if (localStorage.getItem(storageKey)) {
     return localStorage.getItem(storageKey);
   } else {
-    //return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     return 'light';
   }
 }

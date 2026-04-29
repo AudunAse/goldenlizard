@@ -1,17 +1,31 @@
-.theme-switch h2 {
-  font-size: var(--size-step-min-1);
-  font-family: var(--font-base);
+/* Simple theme toggle button */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--s1);
+  color: var(--text2);
+  font-size: 16px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.15s linear;
 }
 
-.theme-switch .button[aria-pressed='true'] {
-  --_color-contrast: var(--color-tertiary);
-  --button-bg: var(--_color-contrast);
-  --button-color: var(--color-dark);
-  --button-border-color: var(--_color-contrast);
-  outline-color: var(--_color-contrast);
+.theme-toggle:hover {
+  opacity: 0.5;
+}
+
+.theme-toggle__icon::after {
+  content: '●';
+}
+
+[data-theme='dark'] .theme-toggle__icon::after {
+  content: '○';
 }
 
 /* Hide without JS */
-is-land:not(:defined) .theme-switch {
+is-land:not(:defined) .theme-toggle {
   display: none;
 }
